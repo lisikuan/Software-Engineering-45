@@ -15,49 +15,52 @@
     </header>
 
     <main class="content-grid">
-        <section class="panel">
+        <section class="panel wide-panel">
             <div class="panel-header">
-                <h1>Review Applicants</h1>
-                <span class="status-chip">MO</span>
+                <h1 class="stacked-title">SWING PAGE DESIGN</h1>
+                <button type="button" class="secondary-button">Refresh Jobs</button>
             </div>
 
             <form action="/reviewFilter" method="get" class="filter-row">
-                <input name="jobKeyword" placeholder="Search by job or applicant"/>
-                <select name="status">
-                    <option value="">All Status</option>
-                    <option value="submitted">Submitted</option>
-                    <option value="shortlisted">Shortlisted</option>
-                    <option value="rejected">Rejected</option>
+                <select name="jobKeyword">
+                    <option value="">Select Job</option>
+                    <option value="job-001">Database Systems TA</option>
+                    <option value="job-002">Programming Lab Support</option>
                 </select>
-                <button type="submit" class="secondary-button">Filter</button>
+                <div></div>
+                <button type="submit" class="secondary-button">Load Applicants</button>
             </form>
 
             <table class="data-table">
                 <tr>
-                    <th>Name</th>
-                    <th>Applied Job</th>
-                    <th>Skills</th>
+                    <th>App ID</th>
+                    <th>TA ID</th>
+                    <th>TA Name</th>
+                    <th>TA Skills</th>
+                    <th>Match %</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
                 <tr>
+                    <td>APP-001</td>
+                    <td>TA-014</td>
                     <td>Tom</td>
-                    <td>Database Systems TA</td>
                     <td>Java, SQL</td>
+                    <td>87%</td>
                     <td>Submitted</td>
                     <td class="action-cell">
-                        <button class="primary-button">Accept</button>
-                        <button class="danger-button">Reject</button>
+                        <button class="secondary-button">View Details</button>
                     </td>
                 </tr>
                 <tr>
+                    <td>APP-002</td>
+                    <td>TA-023</td>
                     <td>Alice</td>
-                    <td>Programming Lab Support</td>
                     <td>Python, mentoring</td>
+                    <td>79%</td>
                     <td>Shortlisted</td>
                     <td class="action-cell">
-                        <button class="secondary-button">View CV</button>
-                        <button class="primary-button">Confirm</button>
+                        <button class="secondary-button">View Details</button>
                     </td>
                 </tr>
             </table>
@@ -65,7 +68,7 @@
 
         <section class="panel">
             <div class="panel-header">
-                <h2>Review Notes</h2>
+                <h2>Application Decision</h2>
             </div>
             <form action="/reviewApplication" method="post" class="form-grid">
                 <label>
@@ -88,7 +91,9 @@
                 </label>
 
                 <div class="button-row full-width">
+                    <button type="button" class="secondary-button">View CV</button>
                     <button type="submit" class="primary-button">Save Review</button>
+                    <button type="button" class="danger-button">Reject</button>
                 </div>
             </form>
         </section>

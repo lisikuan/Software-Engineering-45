@@ -15,11 +15,12 @@
     </header>
 
     <main class="content-grid">
-        <section class="panel">
+        <section class="panel wide-panel">
             <div class="panel-header">
-                <h1>TA Workload Monitoring</h1>
+                <h1 class="stacked-title">ADMIN / WORKLOAD MONITOR</h1>
                 <span class="status-chip">Admin</span>
             </div>
+            <p class="muted-note">Monitor assigned hours and rebalance workload before approval.</p>
 
             <form action="/workload" method="get" class="filter-row">
                 <input name="studentKeyword" placeholder="Search TA name"/>
@@ -39,6 +40,7 @@
                     <th>Total Hours</th>
                     <th>Limit</th>
                     <th>Risk</th>
+                    <th>Action</th>
                 </tr>
                 <tr>
                     <td>Tom</td>
@@ -46,6 +48,7 @@
                     <td>10</td>
                     <td>12</td>
                     <td><span class="risk-badge normal">Normal</span></td>
+                    <td><button type="button" class="secondary-button">Inspect</button></td>
                 </tr>
                 <tr>
                     <td>Alice</td>
@@ -53,6 +56,7 @@
                     <td>12</td>
                     <td>12</td>
                     <td><span class="risk-badge warning">Warning</span></td>
+                    <td><button type="button" class="secondary-button">Inspect</button></td>
                 </tr>
                 <tr>
                     <td>Ben</td>
@@ -60,6 +64,7 @@
                     <td>15</td>
                     <td>12</td>
                     <td><span class="risk-badge danger">Overloaded</span></td>
+                    <td><button type="button" class="secondary-button">Inspect</button></td>
                 </tr>
             </table>
         </section>

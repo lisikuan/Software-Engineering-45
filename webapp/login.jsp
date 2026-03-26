@@ -8,38 +8,38 @@
 <body>
 <div class="page-shell">
     <header class="hero-card">
-        <p class="eyebrow">TA Recruitment System</p>
-        <h1>MO / Admin Portal</h1>
-        <p class="hero-text">Sign in to manage job postings, review applicants, and monitor teaching assistant workload.</p>
+        <div class="system-title">BUPT International School</div>
+        <div class="system-subtitle">TA Recruitment System</div>
     </header>
 
     <main class="content-grid single-column">
         <section class="panel">
             <div class="panel-header">
                 <h2>Login</h2>
-                <span class="status-chip">Prototype</span>
+                <span class="status-chip">Prototype UI</span>
             </div>
             <form action="/login" method="post" class="form-grid">
+                <label class="full-width">
+                    <span>Select Role</span>
+                    <div class="button-row">
+                        <label><input type="radio" name="role" value="TA"/> TA</label>
+                        <label><input type="radio" name="role" value="MO" checked="checked"/> Module Organiser (MO)</label>
+                        <label><input type="radio" name="role" value="ADMIN"/> Admin</label>
+                    </div>
+                </label>
+
                 <label>
-                    <span>Username</span>
-                    <input name="username" placeholder="Enter your username"/>
+                    <span>User ID</span>
+                    <input name="username" placeholder="Enter User ID"/>
                 </label>
 
                 <label>
                     <span>Password</span>
-                    <input type="password" name="password" placeholder="Enter your password"/>
-                </label>
-
-                <label>
-                    <span>Role</span>
-                    <select name="role">
-                        <option value="MO">Module Organiser</option>
-                        <option value="ADMIN">Admin</option>
-                    </select>
+                    <input type="password" name="password" placeholder="Enter Password"/>
                 </label>
 
                 <div class="message-box">
-                    Demo note: after login, MO users should go to job posting and applicant review, while Admin users should go to workload monitoring.
+                    TA first-time login: please complete your profile.
                 </div>
 
                 <div class="button-row">
@@ -54,9 +54,9 @@
                 <h2>Quick Navigation</h2>
             </div>
             <nav class="nav-links">
-                <a href="job-posting.jsp">Post a Job</a>
-                <a href="review-panel.jsp">Review Applicants</a>
-                <a href="workload-monitor.jsp">Monitor Workload</a>
+                <a href="job-posting.jsp">MO Job Posting</a>
+                <a href="review-panel.jsp">MO Review Panel</a>
+                <a href="workload-monitor.jsp">Admin Workload Monitor</a>
             </nav>
         </section>
     </main>

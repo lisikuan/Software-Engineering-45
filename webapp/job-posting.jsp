@@ -15,34 +15,37 @@
     </header>
 
     <main class="content-grid">
-        <section class="panel">
+        <section class="panel wide-panel">
             <div class="panel-header">
-                <h1>Publish a TA Job</h1>
+                <h1 class="stacked-title">SYSTEM / MO PORTAL</h1>
                 <span class="status-chip">MO</span>
             </div>
+            <p class="muted-note">Strict terminal mode. Fill all required parameters below.</p>
+            <div class="mono-divider"></div>
             <form action="/addJob" method="post" class="form-grid">
                 <label>
-                    <span>Job Title</span>
-                    <input name="title" placeholder="e.g. Database Systems TA"/>
+                    <span>MO ID</span>
+                    <input name="moId" placeholder="MO-84920"/>
                 </label>
 
                 <label>
-                    <span>Module</span>
-                    <input name="module" placeholder="e.g. EBU6304"/>
+                    <span>Quota</span>
+                    <input name="quota" type="number" min="1" placeholder="1"/>
                 </label>
 
                 <label>
-                    <span>Category</span>
-                    <select name="category">
-                        <option value="module">Module Support</option>
-                        <option value="invigilation">Invigilation</option>
-                        <option value="lab">Lab Support</option>
-                    </select>
+                    <span>Module Name</span>
+                    <input name="module" placeholder="e.g. Frontend Development Core"/>
+                </label>
+
+                <label class="full-width">
+                    <span>Required Skills</span>
+                    <textarea name="skills" rows="3" placeholder="React, TypeScript, CSS..."></textarea>
                 </label>
 
                 <label>
-                    <span>Estimated Weekly Hours</span>
-                    <input name="hours" type="number" min="1" max="20" placeholder="6"/>
+                    <span>Weekly Hours</span>
+                    <input name="hours" type="number" min="1" max="20" placeholder="1-20"/>
                 </label>
 
                 <label>
@@ -51,18 +54,13 @@
                 </label>
 
                 <label class="full-width">
-                    <span>Description</span>
-                    <textarea name="description" rows="5" placeholder="Describe the work, schedule, and expectations."></textarea>
-                </label>
-
-                <label class="full-width">
-                    <span>Required Skills</span>
-                    <input name="skills" placeholder="Java, communication, marking experience"/>
+                    <span>Description (Optional)</span>
+                    <textarea name="description" rows="5" placeholder="Enter detailed job description here..."></textarea>
                 </label>
 
                 <div class="button-row full-width">
-                    <button type="submit" class="primary-button">Publish Job</button>
                     <button type="reset" class="secondary-button">Reset</button>
+                    <button type="submit" class="primary-button">Post Job</button>
                 </div>
             </form>
         </section>
@@ -70,23 +68,27 @@
         <section class="panel">
             <div class="panel-header">
                 <h2>Published Jobs</h2>
+                <button type="button" class="secondary-button">Refresh List</button>
             </div>
             <table class="data-table">
                 <tr>
-                    <th>Title</th>
+                    <th>Job ID</th>
                     <th>Module</th>
-                    <th>Hours</th>
+                    <th>Required Skills</th>
+                    <th>Weekly Hours</th>
                     <th>Status</th>
                 </tr>
                 <tr>
-                    <td>Database Systems TA</td>
-                    <td>EBU6304</td>
+                    <td>JOB-2026-001</td>
+                    <td>Frontend Core</td>
+                    <td><span class="job-chip">React</span><span class="job-chip">TypeScript</span></td>
                     <td>6</td>
                     <td>Open</td>
                 </tr>
                 <tr>
-                    <td>Programming Lab Support</td>
-                    <td>EBU6203</td>
+                    <td>JOB-2026-002</td>
+                    <td>Backend API</td>
+                    <td><span class="job-chip">Node.js</span><span class="job-chip">SQL</span></td>
                     <td>4</td>
                     <td>Draft</td>
                 </tr>
