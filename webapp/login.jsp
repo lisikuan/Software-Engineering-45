@@ -1,0 +1,6 @@
+<h2>Login</h2>
+<form action="/login" method="post">
+    <input name="username" placeholder="Username"/>
+    <input type="password" name="password" placeholder="Password"/>
+    <button type="submit">Login</button>
+</form>
