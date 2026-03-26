@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="edu.bupt.tarecruitment.persistence.json.JsonJobRepositoryTest" time="0.511" tests="6" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="GBK"/>
+    <property name="java.class.path" value="E:\大学\SOFTWARE engineering\ta-recruitment-system\target\test-classes;E:\大学\SOFTWARE engineering\ta-recruitment-system\target\classes;D:\Maven\apache-maven-3.9.10\mvn_repo\com\fasterxml\jackson\core\jackson-databind\2.18.2\jackson-databind-2.18.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\com\fasterxml\jackson\core\jackson-annotations\2.18.2\jackson-annotations-2.18.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\com\fasterxml\jackson\core\jackson-core\2.18.2\jackson-core-2.18.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="CN"/>
+    <property name="sun.boot.library.path" value="D:\jdk-21.0.2\bin"/>
+    <property name="sun.java.command" value="C:\Users\Administrator.DESKTOP-4JEV3O1\AppData\Local\Temp\surefire1902063407345510411\surefirebooter-20260326115653653_3.jar C:\Users\Administrator.DESKTOP-4JEV3O1\AppData\Local\Temp\surefire1902063407345510411 2026-03-26T11-56-53_263-jvmRun1 surefire-20260326115653653_1tmp surefire_0-20260326115653653_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="JsonJobRepositoryTest"/>
+    <property name="surefire.test.class.path" value="E:\大学\SOFTWARE engineering\ta-recruitment-system\target\test-classes;E:\大学\SOFTWARE engineering\ta-recruitment-system\target\classes;D:\Maven\apache-maven-3.9.10\mvn_repo\com\fasterxml\jackson\core\jackson-databind\2.18.2\jackson-databind-2.18.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\com\fasterxml\jackson\core\jackson-annotations\2.18.2\jackson-annotations-2.18.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\com\fasterxml\jackson\core\jackson-core\2.18.2\jackson-core-2.18.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;D:\Maven\apache-maven-3.9.10\mvn_repo\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Administrator.DESKTOP-4JEV3O1"/>
+    <property name="user.language" value="zh"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-01-16"/>
+    <property name="java.home" value="D:\jdk-21.0.2"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="E:\大学\SOFTWARE engineering\ta-recruitment-system"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\Administrator.DESKTOP-4JEV3O1\AppData\Local\Temp\surefire1902063407345510411\surefirebooter-20260326115653653_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.2+13-58"/>
+    <property name="user.name" value="Administrator"/>
+    <property name="stdout.encoding" value="GBK"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="D:\Maven\apache-maven-3.9.10\mvn_repo"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\ADMINI~1.DES\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.2"/>
+    <property name="user.dir" value="E:\大学\SOFTWARE engineering\ta-recruitment-system"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="GBK"/>
+    <property name="java.library.path" value="D:\jdk-21.0.2\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Users\Administrator.DESKTOP-4JEV3O1\.codex\tmp\arg0\codex-arg0DP5eZo;D:\vscode\Microsoft VS Code;D:\jdk-21.0.2\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;D:\VMware\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\jdk-21.0.1\bin;D:\新建文件夹\Git\cmd;D:\python\Scripts;D:\matlab\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;D:\Maven\apache-maven-3.9.10\bin;C:\Program Files\dotnet\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator.DESKTOP-4JEV3O1\AppData\Local\Muse Hub\lib;D:\cursor\resources\app\bin;D:\python\Scripts\;D:\python\;C:\Users\Administrator.DESKTOP-4JEV3O1\AppData\Local\Microsoft\WindowsApps;D:\vscode\Microsoft VS Code\bin;D:\python\3.10;D:\python\3.10\Scripts;D:\jdk-21.0.1\maven-mvnd-1.0.2-windows-amd64\bin;;D:\intellij idea\IntelliJ IDEA 2025.1.3\bin;;D:\QuartusPrime\modelsim_ase\win32aloem;C:\Users\Administrator.DESKTOP-4JEV3O1\AppData\Local\Muse Hub\lib;c:\Users\Administrator.DESKTOP-4JEV3O1\.vscode\extensions\openai.chatgpt-26.323.20928-win32-x64\bin\windows-x86_64;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="GBK"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="21.0.2+13-58"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="findAllReturnsEmptyListWhenJobsFileIsEmptyArray" classname="edu.bupt.tarecruitment.persistence.json.JsonJobRepositoryTest" time="0.348"/>
+  <testcase name="deleteByIdReturnsTrueThenFalseForSameJobId" classname="edu.bupt.tarecruitment.persistence.json.JsonJobRepositoryTest" time="0.034"/>
+  <testcase name="insertThrowsWhenJobIdAlreadyExists" classname="edu.bupt.tarecruitment.persistence.json.JsonJobRepositoryTest" time="0.018"/>
+  <testcase name="readThrowsJsonFormatExceptionWhenJobsJsonIsMalformed" classname="edu.bupt.tarecruitment.persistence.json.JsonJobRepositoryTest" time="0.02"/>
+  <testcase name="updateReplacesExistingJobInJobsJson" classname="edu.bupt.tarecruitment.persistence.json.JsonJobRepositoryTest" time="0.036"/>
+  <testcase name="insertWritesJobToJobsJson" classname="edu.bupt.tarecruitment.persistence.json.JsonJobRepositoryTest" time="0.022"/>
+</testsuite>
