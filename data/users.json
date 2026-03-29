@@ -1,0 +1,78 @@
+[ {
+  "id" : "user_bc0ea752",
+  "username" : "duplicate",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "user1@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 845042500 ]
+}, {
+  "id" : "user_214d190c",
+  "username" : "user1",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "user1@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 939016000 ]
+}, {
+  "id" : "user_0c5b9b7d",
+  "username" : "user2",
+  "password" : "password456",
+  "role" : "ADMIN",
+  "email" : "user2@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 943013100 ]
+}, {
+  "id" : "user_804e6e26",
+  "username" : "counttest",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "count@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 949018900 ]
+}, {
+  "id" : "user_ae6a3a1d",
+  "username" : "student",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "student@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 954460500 ]
+}, {
+  "id" : "user_de3f55a6",
+  "username" : "updatetest",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "updated@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 961715900 ]
+}, {
+  "id" : "user_c361bfd2",
+  "username" : "idtest",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "id@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 971205500 ]
+}, {
+  "id" : "user_f232c3b3",
+  "username" : "findtest",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "find@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 978204800 ]
+}, {
+  "id" : "user_dd38ed0b",
+  "username" : "usernametest",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "username@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 984204600 ]
+}, {
+  "id" : "user_d05aa1d2",
+  "username" : "existtest",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "exist@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 991210100 ]
+}, {
+  "id" : "user_6845eb2a",
+  "username" : "testuser",
+  "password" : "password123",
+  "role" : "STUDENT",
+  "email" : "test@example.com",
+  "createdAt" : [ 2026, 3, 27, 21, 57, 8, 996209900 ]
+} ]
