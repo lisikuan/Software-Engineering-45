@@ -1,0 +1,15 @@
+All interfaces follow a minimalist black-and-white academic style with visual consistency with the MO side. Functions are designed around the full TA application process, with clear responsibilities and closed-loop operations for each page. The specific functions are listed as follows:
+
+1.login.jsp (Login Page): The only entry to the TA-side system, supporting user ID/password input and form reset. It displays a prompt to complete the profile for first-time login, feeds back error messages if backend verification fails, and redirects to the dashboard upon successful verification.
+
+2.dashboard.jsp (Dashboard Page): The core operation homepage for the TA side, displaying basic personal information such as user ID and full name, real-time statistics on the number of applications by status (Pending/Accepted/Rejected), providing navigation entries to all functional pages, and supporting one-click system logout.
+
+3.profile.jsp (Profile Page): The page for creating and editing TA profiles, supporting the entry and modification of full name, major, grade, and skills (comma-separated). The user ID is read-only; submitted information is saved to JSON files by the backend, with corresponding prompts for successful or failed operations, and it supports returning to the dashboard.
+
+4.jobs_browse.jsp (Job Browse Page): Displays all open TA positions in the system, including core information such as job ID, affiliated module, required skills, weekly working hours, and recruitment quota. It supports refreshing the job list, and TAs can directly submit applications for target positions.
+
+5.cv_upload.jsp (CV Upload Page): A dedicated page for TA CV uploads, with the TA ID set as read-only. Only PDF format files are supported for upload with a format restriction prompt; the backend completes file persistence after submission, with corresponding feedback for successful or failed uploads, and it supports returning to the dashboard.
+
+6.apply_status.jsp (Application Status Page): Displays all TA's job application records, including application ID, corresponding job ID, skill match percentage, and application status (Pending/Accepted/Rejected). It supports refreshing the application list, with statuses highlighted in an exclusive style for clear tracking of each application's progress.
+
+All interface operations are forwarded to the corresponding backend Servlets without directly accessing JSON files, complying with the 3-tier architecture specifications. Basic frontend validations (non-null, format check) are implemented, and the layout is responsive for both desktop and small-screen devices.
