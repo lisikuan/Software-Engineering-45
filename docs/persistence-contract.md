@@ -1,4 +1,4 @@
-# Persistence Contract
+﻿# Persistence Contract
 
 ## Scope
 
@@ -76,9 +76,31 @@ Current minimal status set:
 
 [待确认]:
 
-- full status transition rules
+- full status transition rules beyond `SUBMITTED -> APPROVED/REJECTED`
 - additional fields such as submitted time, reviewed time, reviewer, and comments
-- reference existence validation
+- reference existence validation inside persistence itself
+
+### User
+
+Current minimal fields:
+
+- `id`
+- `username`
+- `password`
+- `role`
+
+Current meaning:
+
+- `id`: persistence primary key
+- `username`: login name used by the Swing UI
+- `password`: plain-text password for the runnable test version only
+- `role`: current UI role switch, using `STUDENT` and `ADMIN`
+
+[待确认]:
+
+- whether `MO` should become a separate persisted role
+- a safer password storage strategy
+- additional profile fields
 
 ## JSON Files
 
@@ -128,9 +150,20 @@ Examples:
 ]
 ```
 
+```json
+[
+  {
+    "id": "U001",
+    "username": "student1",
+    "password": "student123",
+    "role": "STUDENT"
+  }
+]
+```
+
 ## Repository Contract
 
-Current repository style for `Student`, `Job`, and `Application`:
+Current repository style for `Student`, `Job`, `Application`, and `User`:
 
 - `findAll()`
 - `findById(String id)`
@@ -146,12 +179,6 @@ Shared semantics:
 - duplicate primary keys must not be silently overwritten
 - updating a missing `id` must throw `DataAccessException`
 
-Current repository interfaces:
-
-- `src/main/java/edu/bupt/tarecruitment/persistence/repository/StudentRepository.java`
-- `src/main/java/edu/bupt/tarecruitment/persistence/repository/JobRepository.java`
-- `src/main/java/edu/bupt/tarecruitment/persistence/repository/ApplicationRepository.java`
-
 ## Exception Semantics
 
 Persistence layer uses explicit exceptions:
@@ -163,13 +190,6 @@ Current meanings:
 
 - `DataAccessException`: general persistence failure such as file access failure, duplicate id, or missing target during update
 - `JsonFormatException`: malformed JSON content or JSON mapping failure
-
-Shared behavior:
-
-- `insert` with duplicate primary key throws `DataAccessException`
-- `update` with missing target id throws `DataAccessException`
-- invalid JSON throws `JsonFormatException`
-- missing required JSON files fail clearly
 
 ## Service / UI Integration Rules
 
@@ -186,6 +206,7 @@ Business rules reserved for service first:
 - prevent duplicate applications for the same `studentId` and `jobId`
 - validate referenced student/job existence
 - enforce application status transitions
+- validate login credentials against `users.json`
 
 ### UI layer
 
@@ -198,7 +219,7 @@ UI should:
 ## Current [待确认] Summary
 
 - expanded fields for Student, Job, and Application
-- full Application status transition rules
-- whether persistence should enforce more uniqueness constraints
-- whether repository interfaces should add business-field lookup methods
-- final User model fields and authentication semantics
+- whether `MO` should be separated from `ADMIN`
+- a safer password storage strategy
+- full Application status transition rules beyond the runnable test version
+- whether repository interfaces should add more business-field lookup methods

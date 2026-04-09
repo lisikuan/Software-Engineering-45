@@ -1,1 +1,12 @@
-[]
+﻿[
+  {
+    "id": "J001",
+    "title": "Java TA",
+    "description": "Assist with Java lab sessions and answer student questions."
+  },
+  {
+    "id": "J002",
+    "title": "Database TA",
+    "description": "Support database coursework, marking, and office hours."
+  }
+]
