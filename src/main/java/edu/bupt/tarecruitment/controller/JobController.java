@@ -22,4 +22,9 @@ public class JobController {
     public Job getJobById(String jobId) throws ValidationException, BusinessException, DataAccessException {
         return jobService.getJobById(jobId);
     }
+
+    public Job publishJob(String courseName, List<String> requiredSkills, int weeklyHours, String description)
+            throws ValidationException, DataAccessException {
+        return jobService.publishJob(courseName, requiredSkills, weeklyHours, description);
+    }
 }

@@ -24,11 +24,17 @@ Current minimal fields:
 - `id`
 - `name`
 - `userId`
+- `studentNumber`
+- `skillTags`
+- `cvFilePath`
 
 Current meaning:
 
-- `id`: student number / student identifier, and the persistence primary key
+- `id`: internal student record identifier, and the persistence primary key
 - `userId`: reference to `User.id`
+- `studentNumber`: business student number used in the profile form
+- `skillTags`: student skill labels stored as a JSON string array
+- `cvFilePath`: relative path to the stored PDF CV under `data/cvs/`
 
 [待确认]:
 
@@ -42,15 +48,22 @@ Current minimal fields:
 - `id`
 - `title`
 - `description`
+- `courseName`
+- `requiredSkills`
+- `weeklyHours`
 
 Current meaning:
 
 - `id`: job/post identifier, and the persistence primary key
+- `title`: display title for the current Swing tables
+- `courseName`: course name entered by the admin when publishing a job
+- `requiredSkills`: required skill labels stored as a JSON string array
+- `weeklyHours`: weekly workload integer for the runnable test version
 
 [待确认]:
 
 - whether `id` has a stricter business format
-- additional fields such as course, teacher, quota, deadline, publisher, and status
+- additional fields such as teacher, quota, deadline, publisher, and status
 
 ### Application
 
@@ -110,6 +123,7 @@ Persistent files:
 - `data/jobs.json`
 - `data/applications.json`
 - `data/users.json`
+- `data/cvs/*.pdf`
 
 Shared rules:
 
@@ -124,7 +138,10 @@ Examples:
   {
     "id": "S001",
     "name": "Alice",
-    "userId": "U001"
+    "userId": "U001",
+    "studentNumber": "2024001",
+    "skillTags": ["Java", "Communication"],
+    "cvFilePath": "cvs/S001.pdf"
   }
 ]
 ```
@@ -133,8 +150,11 @@ Examples:
 [
   {
     "id": "J001",
-    "title": "Java TA",
-    "description": "Assist with labs"
+    "title": "Java Programming TA",
+    "description": "Assist with labs",
+    "courseName": "Java Programming",
+    "requiredSkills": ["Java", "Communication"],
+    "weeklyHours": 6
   }
 ]
 ```
@@ -178,6 +198,7 @@ Shared semantics:
 - repository naming remains unchanged for now
 - duplicate primary keys must not be silently overwritten
 - updating a missing `id` must throw `DataAccessException`
+- CV binary file storage is handled by a dedicated persistence entry point instead of embedding file bytes in JSON
 
 ## Exception Semantics
 
@@ -207,6 +228,8 @@ Business rules reserved for service first:
 - validate referenced student/job existence
 - enforce application status transitions
 - validate login credentials against `users.json`
+- enforce unique `studentNumber`
+- validate profile completion before allowing a job application
 
 ### UI layer
 

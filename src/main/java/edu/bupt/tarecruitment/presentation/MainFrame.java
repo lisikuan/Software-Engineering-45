@@ -1,18 +1,13 @@
 ﻿package edu.bupt.tarecruitment.presentation;
 
-import edu.bupt.tarecruitment.common.exception.BusinessException;
-import edu.bupt.tarecruitment.common.exception.DataAccessException;
-import edu.bupt.tarecruitment.common.exception.ValidationException;
 import edu.bupt.tarecruitment.controller.ApplicationController;
 import edu.bupt.tarecruitment.controller.AuthController;
 import edu.bupt.tarecruitment.controller.JobController;
 import edu.bupt.tarecruitment.controller.StudentController;
-import edu.bupt.tarecruitment.model.Student;
 import edu.bupt.tarecruitment.model.User;
 import edu.bupt.tarecruitment.model.UserRole;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 
@@ -46,7 +41,7 @@ public class MainFrame extends JFrame {
 
     private void initializeUi() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 700);
+        setSize(1200, 780);
         setLocationRelativeTo(null);
         setContentPane(contentPanel);
         showLoginView();
@@ -60,38 +55,32 @@ public class MainFrame extends JFrame {
     }
 
     private void handleLoginSuccess(User user) {
-        try {
-            if (user.getRole() == UserRole.STUDENT) {
-                Student student = studentController.getStudentByUserId(user.getId());
-                contentPanel.add(
-                        new StudentDashboardPanel(
-                                user,
-                                student,
-                                jobController,
-                                applicationController,
-                                this::showLoginView
-                        ),
-                        STUDENT_VIEW
-                );
-                cardLayout.show(contentPanel, STUDENT_VIEW);
-            } else {
-                contentPanel.add(
-                        new AdminReviewPanel(
-                                user,
-                                studentController,
-                                jobController,
-                                applicationController,
-                                this::showLoginView
-                        ),
-                        ADMIN_VIEW
-                );
-                cardLayout.show(contentPanel, ADMIN_VIEW);
-            }
-            refreshFrame();
-        } catch (ValidationException | BusinessException | DataAccessException exception) {
-            JOptionPane.showMessageDialog(this, exception.getMessage(), "Login Failed", JOptionPane.ERROR_MESSAGE);
-            showLoginView();
+        if (user.getRole() == UserRole.STUDENT) {
+            contentPanel.add(
+                    new StudentDashboardPanel(
+                            user,
+                            studentController,
+                            jobController,
+                            applicationController,
+                            this::showLoginView
+                    ),
+                    STUDENT_VIEW
+            );
+            cardLayout.show(contentPanel, STUDENT_VIEW);
+        } else {
+            contentPanel.add(
+                    new AdminReviewPanel(
+                            user,
+                            studentController,
+                            jobController,
+                            applicationController,
+                            this::showLoginView
+                    ),
+                    ADMIN_VIEW
+            );
+            cardLayout.show(contentPanel, ADMIN_VIEW);
         }
+        refreshFrame();
     }
 
     private void refreshFrame() {

@@ -100,7 +100,10 @@ class ApplicationServiceTest {
                   {
                     "id": "S001",
                     "name": "Alice",
-                    "userId": "U001"
+                    "userId": "U001",
+                    "studentNumber": "2024001",
+                    "skillTags": ["Java"],
+                    "cvFilePath": "cvs/S001.pdf"
                   }
                 ]
                 """);
@@ -109,12 +112,18 @@ class ApplicationServiceTest {
                   {
                     "id": "J001",
                     "title": "Java TA",
-                    "description": "Assist with labs"
+                    "description": "Assist with labs",
+                    "courseName": "Java Programming",
+                    "requiredSkills": ["Java"],
+                    "weeklyHours": 6
                   },
                   {
                     "id": "J002",
                     "title": "Database TA",
-                    "description": "Assist with grading"
+                    "description": "Assist with grading",
+                    "courseName": "Database Systems",
+                    "requiredSkills": ["SQL"],
+                    "weeklyHours": 5
                   }
                 ]
                 """);

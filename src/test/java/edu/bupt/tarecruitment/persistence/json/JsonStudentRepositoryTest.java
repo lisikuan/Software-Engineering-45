@@ -1,4 +1,4 @@
-package edu.bupt.tarecruitment.persistence.json;
+﻿package edu.bupt.tarecruitment.persistence.json;
 
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
 import edu.bupt.tarecruitment.common.exception.JsonFormatException;
@@ -31,14 +31,15 @@ class JsonStudentRepositoryTest {
     @Test
     void insertWritesStudentToStudentsJson() throws Exception {
         JsonStudentRepository repository = createRepositoryWithStudentsJson("[]");
-        Student student = new Student("S001", "Alice", "U001");
+        Student student = new Student("S001", "Alice", "U001", "20230001", List.of("Java", "SQL"), "cvs/S001.pdf");
 
         repository.insert(student);
 
         String json = Files.readString(tempDir.resolve("students.json"));
         assertTrue(json.contains("\"id\" : \"S001\""));
         assertTrue(json.contains("\"name\" : \"Alice\""));
-        assertTrue(json.contains("\"userId\" : \"U001\""));
+        assertTrue(json.contains("\"studentNumber\" : \"20230001\""));
+        assertTrue(json.contains("\"cvFilePath\" : \"cvs/S001.pdf\""));
     }
 
     @Test
@@ -48,14 +49,17 @@ class JsonStudentRepositoryTest {
                   {
                     "id": "S001",
                     "name": "Alice",
-                    "userId": "U001"
+                    "userId": "U001",
+                    "studentNumber": "20230001",
+                    "skillTags": ["Java"],
+                    "cvFilePath": "cvs/S001.pdf"
                   }
                 ]
                 """);
 
         DataAccessException exception = assertThrows(
                 DataAccessException.class,
-                () -> repository.insert(new Student("S001", "Bob", "U002"))
+                () -> repository.insert(new Student("S001", "Bob", "U002", "20230002", List.of("Python"), null))
         );
 
         assertTrue(exception.getMessage().contains("Duplicate id 'S001'"));
@@ -68,16 +72,20 @@ class JsonStudentRepositoryTest {
                   {
                     "id": "S001",
                     "name": "Alice",
-                    "userId": "U001"
+                    "userId": "U001",
+                    "studentNumber": "20230001",
+                    "skillTags": ["Java"],
+                    "cvFilePath": "cvs/S001.pdf"
                   }
                 ]
                 """);
 
-        repository.update(new Student("S001", "Alice Updated", "U009"));
+        repository.update(new Student("S001", "Alice Updated", "U001", "20230009", List.of("Java", "SQL"), "cvs/S001.pdf"));
 
         Student storedStudent = repository.findById("S001").orElseThrow();
         assertEquals("Alice Updated", storedStudent.getName());
-        assertEquals("U009", storedStudent.getUserId());
+        assertEquals("20230009", storedStudent.getStudentNumber());
+        assertEquals(List.of("Java", "SQL"), storedStudent.getSkillTags());
     }
 
     @Test
@@ -87,7 +95,10 @@ class JsonStudentRepositoryTest {
                   {
                     "id": "S001",
                     "name": "Alice",
-                    "userId": "U001"
+                    "userId": "U001",
+                    "studentNumber": "20230001",
+                    "skillTags": ["Java"],
+                    "cvFilePath": "cvs/S001.pdf"
                   }
                 ]
                 """);

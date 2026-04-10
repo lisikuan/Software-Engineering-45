@@ -50,6 +50,7 @@ public class ApplicationService {
             throws ValidationException, BusinessException, DataAccessException {
         applicationValidator.validateSubmission(studentId, jobId);
         ensureStudentAndJobExist(studentId, jobId);
+        ensureStudentProfileReady(studentId);
         ensureApplicationIsUnique(studentId, jobId);
 
         Application application = new Application(nextApplicationId(), studentId, jobId, ApplicationStatus.SUBMITTED);
@@ -81,6 +82,13 @@ public class ApplicationService {
         }
         if (jobRepository.findById(jobId).isEmpty()) {
             throw new BusinessException("Job not found for id: " + jobId);
+        }
+    }
+
+    private void ensureStudentProfileReady(String studentId) throws BusinessException, DataAccessException {
+        if (studentRepository.findById(studentId).stream().noneMatch(student ->
+                student.getStudentNumber() != null && !student.getStudentNumber().isBlank())) {
+            throw new BusinessException("Student profile must be completed before applying for a job.");
         }
     }
 

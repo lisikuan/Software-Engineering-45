@@ -1,12 +1,15 @@
-﻿[
-  {
-    "id": "J001",
-    "title": "Java TA",
-    "description": "Assist with Java lab sessions and answer student questions."
-  },
-  {
-    "id": "J002",
-    "title": "Database TA",
-    "description": "Support database coursework, marking, and office hours."
-  }
-]
+[ {
+  "id" : "J001",
+  "title" : "Java Programming TA",
+  "description" : "Assist with Java lab sessions and answer student questions.",
+  "courseName" : "Java Programming",
+  "requiredSkills" : [ "Java", "Communication" ],
+  "weeklyHours" : 6
+}, {
+  "id" : "J002",
+  "title" : "Database Systems TA",
+  "description" : "Support database coursework, marking, and office hours.",
+  "courseName" : "Database Systems",
+  "requiredSkills" : [ "SQL", "Tutoring" ],
+  "weeklyHours" : 5
+} ]
