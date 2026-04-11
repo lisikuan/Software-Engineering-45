@@ -20,6 +20,8 @@ public class Student {
     private String name;
     private String userId;
     private String studentNumber;
+    private String major;
+    private String grade;
     private List<String> skillTags;
     private String cvFilePath;
 
@@ -28,14 +30,16 @@ public class Student {
     }
 
     public Student(String id, String name, String userId) {
-        this(id, name, userId, null, new ArrayList<>(), null);
+        this(id, name, userId, null, null, null, new ArrayList<>(), null);
     }
 
-    public Student(String id, String name, String userId, String studentNumber, List<String> skillTags, String cvFilePath) {
+    public Student(String id, String name, String userId, String studentNumber, String major, String grade, List<String> skillTags, String cvFilePath) {
         this.id = id;
         this.name = name;
         this.userId = userId;
         this.studentNumber = studentNumber;
+        this.major = major;
+        this.grade = grade;
         this.skillTags = skillTags == null ? new ArrayList<>() : new ArrayList<>(skillTags);
         this.cvFilePath = cvFilePath;
     }
@@ -70,6 +74,22 @@ public class Student {
 
     public void setStudentNumber(String studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public List<String> getSkillTags() {

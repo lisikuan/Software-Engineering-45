@@ -1,15 +1,19 @@
 package edu.bupt.tarecruitment.service;
+<<<<<<< HEAD
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+=======
+>>>>>>> 3671f8efbaf0da2baeaf2e256d12a477dd7b649b
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
 import edu.bupt.tarecruitment.common.exception.ValidationException;
 import edu.bupt.tarecruitment.model.Job;
+import edu.bupt.tarecruitment.model.JobStatus;
 import edu.bupt.tarecruitment.persistence.repository.JobRepository;
 import edu.bupt.tarecruitment.validation.JobValidator;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 
 public class JobService {
     private final JobRepository jobRepository;
@@ -37,14 +41,26 @@ public class JobService {
             String courseName,
             List<String> requiredSkills,
             int weeklyHours,
-            String description
+            int quota,
+            String description,
+            String publisherId
     ) throws ValidationException, DataAccessException {
-        jobValidator.validateJobInput(courseName, requiredSkills, weeklyHours);
+        jobValidator.validateJobInput(courseName, requiredSkills, weeklyHours, quota);
 
         String id = nextJobId();
         String title = courseName + " TA";
-        Job job = new Job(id, title, description == null ? "" : description, courseName, requiredSkills, weeklyHours);
+        Job job = new Job(id, title, description == null ? "" : description, courseName, requiredSkills, weeklyHours, quota, JobStatus.OPEN, publisherId);
         return jobRepository.insert(job);
+    }
+
+    public List<Job> getOpenJobs() throws DataAccessException {
+        return jobRepository.findAll().stream()
+                .filter(job -> job.getStatus() == JobStatus.OPEN)
+                .toList();
+    }
+
+    public List<Job> getJobsByPublisher(String publisherId) throws DataAccessException {
+        return jobRepository.findByPublisherId(publisherId);
     }
 
     private String nextJobId() throws DataAccessException {

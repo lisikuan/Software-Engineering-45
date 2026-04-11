@@ -1,18 +1,24 @@
 package edu.bupt.tarecruitment.service;
+<<<<<<< HEAD
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+=======
+>>>>>>> 3671f8efbaf0da2baeaf2e256d12a477dd7b649b
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
 import edu.bupt.tarecruitment.common.exception.ValidationException;
 import edu.bupt.tarecruitment.model.Application;
 import edu.bupt.tarecruitment.model.ApplicationStatus;
+import edu.bupt.tarecruitment.model.Job;
+import edu.bupt.tarecruitment.model.JobStatus;
+import edu.bupt.tarecruitment.model.Student;
 import edu.bupt.tarecruitment.persistence.repository.ApplicationRepository;
 import edu.bupt.tarecruitment.persistence.repository.JobRepository;
 import edu.bupt.tarecruitment.persistence.repository.StudentRepository;
 import edu.bupt.tarecruitment.validation.ApplicationValidator;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
@@ -46,10 +52,40 @@ public class ApplicationService {
                 .toList();
     }
 
+    public List<Application> getApplicationsBySkills(List<String> skills, String publisherId) throws DataAccessException {
+        List<Application> applications = applicationRepository.findAll().stream()
+                .filter(application -> {
+                    try {
+                        Job job = jobRepository.findById(application.getJobId()).orElse(null);
+                        if (job == null) {
+                            return false;
+                        }
+                        if (publisherId != null && !publisherId.equals(job.getPublisherId())) {
+                            return false;
+                        }
+                        if (skills == null || skills.isEmpty()) {
+                            return true;
+                        }
+                        Student student = studentRepository.findById(application.getStudentId()).orElse(null);
+                        if (student == null || student.getSkillTags() == null) {
+                            return false;
+                        }
+                        return student.getSkillTags().stream()
+                                .anyMatch(skill -> skills.stream()
+                                        .anyMatch(filter -> filter.equalsIgnoreCase(skill)));
+                    } catch (DataAccessException e) {
+                        return false;
+                    }
+                })
+                .toList();
+        return applications;
+    }
+
     public Application submitApplication(String studentId, String jobId)
             throws ValidationException, BusinessException, DataAccessException {
         applicationValidator.validateSubmission(studentId, jobId);
-        ensureStudentAndJobExist(studentId, jobId);
+        Job job = ensureStudentAndJobExist(studentId, jobId);
+        ensureJobIsOpen(job);
         ensureStudentProfileReady(studentId);
         ensureApplicationIsUnique(studentId, jobId);
 
@@ -61,27 +97,51 @@ public class ApplicationService {
             throws ValidationException, BusinessException, DataAccessException {
         applicationValidator.validateStatusUpdate(applicationId, newStatus);
 
+        if (newStatus == ApplicationStatus.SUBMITTED) {
+            throw new BusinessException("Application status cannot be changed back to SUBMITTED.");
+        }
+
         Application existingApplication = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new BusinessException("Application not found for id: " + applicationId));
 
-        if (existingApplication.getStatus() != ApplicationStatus.SUBMITTED) {
-            throw new BusinessException("Only submitted applications can be reviewed.");
+        if (existingApplication.getStatus() == ApplicationStatus.APPROVED
+                || existingApplication.getStatus() == ApplicationStatus.REJECTED) {
+            throw new BusinessException("Cannot change the status of an already decided application.");
         }
 
-        if (newStatus == ApplicationStatus.SUBMITTED) {
-            throw new BusinessException("Reviewed application status must be APPROVED or REJECTED.");
+        if (newStatus == ApplicationStatus.REVIEWED) {
+            if (existingApplication.getStatus() != ApplicationStatus.SUBMITTED) {
+                throw new BusinessException("Only submitted applications can be marked as reviewed.");
+            }
+        }
+
+        if (newStatus == ApplicationStatus.APPROVED || newStatus == ApplicationStatus.REJECTED) {
+            if (existingApplication.getStatus() == ApplicationStatus.APPROVED
+                    || existingApplication.getStatus() == ApplicationStatus.REJECTED) {
+                throw new BusinessException("Application has already been decided.");
+            }
         }
 
         existingApplication.setStatus(newStatus);
-        return applicationRepository.update(existingApplication);
+        Application updated = applicationRepository.update(existingApplication);
+        if (newStatus == ApplicationStatus.APPROVED) {
+            closeJobWhenQuotaFilled(existingApplication.getJobId());
+        }
+        return updated;
     }
 
-    private void ensureStudentAndJobExist(String studentId, String jobId) throws BusinessException, DataAccessException {
+    private Job ensureStudentAndJobExist(String studentId, String jobId) throws BusinessException, DataAccessException {
         if (studentRepository.findById(studentId).isEmpty()) {
             throw new BusinessException("Student not found for id: " + studentId);
         }
-        if (jobRepository.findById(jobId).isEmpty()) {
-            throw new BusinessException("Job not found for id: " + jobId);
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new BusinessException("Job not found for id: " + jobId));
+        return job;
+    }
+
+    private void ensureJobIsOpen(Job job) throws BusinessException {
+        if (job.getStatus() != JobStatus.OPEN) {
+            throw new BusinessException("Cannot apply to a job that is not open.");
         }
     }
 
@@ -98,6 +158,23 @@ public class ApplicationService {
                         && jobId.equals(application.getJobId()));
         if (duplicateExists) {
             throw new BusinessException("The student has already applied for this job.");
+        }
+    }
+
+    private void closeJobWhenQuotaFilled(String jobId) throws DataAccessException, BusinessException {
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new BusinessException("Job not found while checking quota: " + jobId));
+        if (job.getStatus() != JobStatus.OPEN || job.getQuota() <= 0) {
+            return;
+        }
+
+        long approvedApplicationsCount = applicationRepository.findAll().stream()
+                .filter(application -> jobId.equals(application.getJobId())
+                        && application.getStatus() == ApplicationStatus.APPROVED)
+                .count();
+        if (approvedApplicationsCount >= job.getQuota()) {
+            job.setStatus(JobStatus.CLOSED);
+            jobRepository.update(job);
         }
     }
 

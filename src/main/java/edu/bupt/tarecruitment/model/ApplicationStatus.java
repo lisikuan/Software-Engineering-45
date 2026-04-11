@@ -8,6 +8,7 @@ package edu.bupt.tarecruitment.model;
  */
 public enum ApplicationStatus {
     SUBMITTED,
+    REVIEWED,
     APPROVED,
     REJECTED
 }

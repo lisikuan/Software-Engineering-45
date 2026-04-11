@@ -1,4 +1,6 @@
 package edu.bupt.tarecruitment.service;
+<<<<<<< HEAD
+=======
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
@@ -7,11 +9,21 @@ import edu.bupt.tarecruitment.model.Student;
 import edu.bupt.tarecruitment.persistence.repository.CvRepository;
 import edu.bupt.tarecruitment.persistence.repository.StudentRepository;
 import edu.bupt.tarecruitment.validation.StudentValidator;
+>>>>>>> 3671f8efbaf0da2baeaf2e256d12a477dd7b649b
 
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
+import edu.bupt.tarecruitment.common.exception.BusinessException;
+import edu.bupt.tarecruitment.common.exception.DataAccessException;
+import edu.bupt.tarecruitment.common.exception.ValidationException;
+import edu.bupt.tarecruitment.model.Job;
+import edu.bupt.tarecruitment.model.Student;
+import edu.bupt.tarecruitment.persistence.repository.CvRepository;
+import edu.bupt.tarecruitment.persistence.repository.StudentRepository;
+import edu.bupt.tarecruitment.validation.StudentValidator;
 
 public class StudentService {
     private final StudentRepository studentRepository;
@@ -57,10 +69,12 @@ public class StudentService {
             String userId,
             String name,
             String studentNumber,
+            String major,
+            String grade,
             List<String> skillTags,
             Path cvSourceFile
     ) throws ValidationException, BusinessException, DataAccessException {
-        studentValidator.validateProfileInput(name, studentNumber, skillTags, cvSourceFile);
+        studentValidator.validateProfileInput(name, studentNumber, major, grade, skillTags, cvSourceFile);
 
         Optional<Student> existingStudent = findStudentByUserId(userId);
         ensureStudentNumberIsUnique(studentNumber, existingStudent.map(Student::getId).orElse(null));
@@ -73,6 +87,8 @@ public class StudentService {
         }
         profile.setName(name);
         profile.setStudentNumber(studentNumber);
+        profile.setMajor(major);
+        profile.setGrade(grade);
         profile.setSkillTags(skillTags);
         if (cvSourceFile != null) {
             profile.setCvFilePath(cvRepository.storePdf(profile.getId(), cvSourceFile));
@@ -82,6 +98,13 @@ public class StudentService {
             return studentRepository.update(profile);
         }
         return studentRepository.insert(profile);
+    }
+
+    public List<String> getMissingSkills(String studentId, Job job) throws ValidationException, DataAccessException, BusinessException {
+        Student student = getStudentById(studentId);
+        return job.getRequiredSkills().stream()
+                .filter(skill -> student.getSkillTags().stream().noneMatch(existing -> existing.equalsIgnoreCase(skill)))
+                .toList();
     }
 
     public Path resolveCvFilePath(String relativePath) throws DataAccessException {

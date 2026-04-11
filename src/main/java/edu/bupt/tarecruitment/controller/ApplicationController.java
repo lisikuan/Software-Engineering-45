@@ -24,6 +24,10 @@ public class ApplicationController {
         return applicationService.getApplicationsForStudent(studentId);
     }
 
+    public List<Application> getApplicationsBySkills(List<String> skills, String publisherId) throws DataAccessException {
+        return applicationService.getApplicationsBySkills(skills, publisherId);
+    }
+
     public Application submitApplication(String studentId, String jobId)
             throws ValidationException, BusinessException, DataAccessException {
         return applicationService.submitApplication(studentId, jobId);
