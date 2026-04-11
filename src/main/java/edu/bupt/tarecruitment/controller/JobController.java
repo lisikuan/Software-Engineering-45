@@ -1,12 +1,12 @@
-﻿package edu.bupt.tarecruitment.controller;
+package edu.bupt.tarecruitment.controller;
+
+import java.util.List;
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
 import edu.bupt.tarecruitment.common.exception.ValidationException;
 import edu.bupt.tarecruitment.model.Job;
 import edu.bupt.tarecruitment.service.JobService;
-
-import java.util.List;
 
 public class JobController {
     private final JobService jobService;
@@ -23,8 +23,16 @@ public class JobController {
         return jobService.getJobById(jobId);
     }
 
-    public Job publishJob(String courseName, List<String> requiredSkills, int weeklyHours, String description)
+    public Job publishJob(String courseName, List<String> requiredSkills, int weeklyHours, int quota, String description, String publisherId)
             throws ValidationException, DataAccessException {
-        return jobService.publishJob(courseName, requiredSkills, weeklyHours, description);
+        return jobService.publishJob(courseName, requiredSkills, weeklyHours, quota, description, publisherId);
+    }
+
+    public List<Job> getOpenJobs() throws DataAccessException {
+        return jobService.getOpenJobs();
+    }
+
+    public List<Job> getJobsByPublisher(String publisherId) throws DataAccessException {
+        return jobService.getJobsByPublisher(publisherId);
     }
 }

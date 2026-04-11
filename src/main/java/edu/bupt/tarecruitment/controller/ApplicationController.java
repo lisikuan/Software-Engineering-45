@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.controller;
+package edu.bupt.tarecruitment.controller;
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
@@ -22,6 +22,10 @@ public class ApplicationController {
 
     public List<Application> getApplicationsForStudent(String studentId) throws ValidationException, DataAccessException {
         return applicationService.getApplicationsForStudent(studentId);
+    }
+
+    public List<Application> getApplicationsBySkills(List<String> skills, String publisherId) throws DataAccessException {
+        return applicationService.getApplicationsBySkills(skills, publisherId);
     }
 
     public Application submitApplication(String studentId, String jobId)

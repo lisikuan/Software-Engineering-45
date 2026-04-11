@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.model;
+package edu.bupt.tarecruitment.model;
 
 /**
  * Responsibility: represent the minimal persisted User entity for login and

@@ -23,24 +23,24 @@ class AuthServiceTest {
     void loginReturnsUserWhenCredentialsAndRoleMatch() throws Exception {
         AuthService authService = createAuthService();
 
-        User user = authService.login("student1", "student123", UserRole.STUDENT);
+        User user = authService.login("ta1", "ta123", UserRole.TA);
 
         assertEquals("U001", user.getId());
-        assertEquals(UserRole.STUDENT, user.getRole());
+        assertEquals(UserRole.TA, user.getRole());
     }
 
     @Test
     void loginThrowsWhenPasswordDoesNotMatch() throws Exception {
         AuthService authService = createAuthService();
 
-        assertThrows(BusinessException.class, () -> authService.login("student1", "wrong", UserRole.STUDENT));
+        assertThrows(BusinessException.class, () -> authService.login("ta1", "wrong", UserRole.TA));
     }
 
     @Test
     void loginThrowsWhenRoleDoesNotMatch() throws Exception {
         AuthService authService = createAuthService();
 
-        assertThrows(BusinessException.class, () -> authService.login("student1", "student123", UserRole.ADMIN));
+        assertThrows(BusinessException.class, () -> authService.login("ta1", "ta123", UserRole.MO));
     }
 
     private AuthService createAuthService() throws Exception {
@@ -48,15 +48,15 @@ class AuthServiceTest {
                 [
                   {
                     "id": "U001",
-                    "username": "student1",
-                    "password": "student123",
-                    "role": "STUDENT"
+                    "username": "ta1",
+                    "password": "ta123",
+                    "role": "TA"
                   },
                   {
                     "id": "U900",
-                    "username": "admin1",
-                    "password": "admin123",
-                    "role": "ADMIN"
+                    "username": "mo1",
+                    "password": "mo123",
+                    "role": "MO"
                   }
                 ]
                 """);

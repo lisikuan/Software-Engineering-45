@@ -1,15 +1,14 @@
-﻿package edu.bupt.tarecruitment.presentation;
+package edu.bupt.tarecruitment.presentation;
 
-import edu.bupt.tarecruitment.common.exception.BusinessException;
-import edu.bupt.tarecruitment.common.exception.DataAccessException;
-import edu.bupt.tarecruitment.common.exception.ValidationException;
-import edu.bupt.tarecruitment.controller.ApplicationController;
-import edu.bupt.tarecruitment.controller.JobController;
-import edu.bupt.tarecruitment.controller.StudentController;
-import edu.bupt.tarecruitment.model.Application;
-import edu.bupt.tarecruitment.model.Job;
-import edu.bupt.tarecruitment.model.Student;
-import edu.bupt.tarecruitment.model.User;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -24,15 +23,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import edu.bupt.tarecruitment.common.exception.BusinessException;
+import edu.bupt.tarecruitment.common.exception.DataAccessException;
+import edu.bupt.tarecruitment.common.exception.ValidationException;
+import edu.bupt.tarecruitment.controller.ApplicationController;
+import edu.bupt.tarecruitment.controller.JobController;
+import edu.bupt.tarecruitment.controller.StudentController;
+import edu.bupt.tarecruitment.model.Application;
+import edu.bupt.tarecruitment.model.Job;
+import edu.bupt.tarecruitment.model.Student;
+import edu.bupt.tarecruitment.model.User;
 
 public class StudentDashboardPanel extends JPanel {
     private final User currentUser;
@@ -46,6 +47,8 @@ public class StudentDashboardPanel extends JPanel {
     private final JLabel profileStatusLabel;
     private final JTextField nameField;
     private final JTextField studentNumberField;
+    private final JTextField majorField;
+    private final JTextField gradeField;
     private final JTextField skillTagsField;
     private final JLabel cvPathLabel;
 
@@ -65,7 +68,7 @@ public class StudentDashboardPanel extends JPanel {
         this.applicationController = applicationController;
         this.logoutAction = logoutAction;
         this.jobsModel = new DefaultTableModel(
-                new Object[]{"Job ID", "Course", "Title", "Required Skills", "Weekly Hours", "Description"},
+                new Object[]{"Job ID", "Course", "Title", "Required Skills", "Missing Skills", "Weekly Hours", "Description"},
                 0
         ) {
             @Override
@@ -86,6 +89,8 @@ public class StudentDashboardPanel extends JPanel {
         this.profileStatusLabel = new JLabel();
         this.nameField = new JTextField(18);
         this.studentNumberField = new JTextField(18);
+        this.majorField = new JTextField(18);
+        this.gradeField = new JTextField(18);
         this.skillTagsField = new JTextField(18);
         this.cvPathLabel = new JLabel("No CV selected");
         initializeUi();
@@ -98,7 +103,7 @@ public class StudentDashboardPanel extends JPanel {
 
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
-        headerPanel.add(new JLabel("Student Dashboard"));
+        headerPanel.add(new JLabel("TA Dashboard"));
         headerPanel.add(new JLabel("Current User: " + currentUser.getUsername()));
         headerPanel.add(profileStatusLabel);
         add(headerPanel, BorderLayout.NORTH);
@@ -142,12 +147,24 @@ public class StudentDashboardPanel extends JPanel {
 
         constraints.gridx = 0;
         constraints.gridy = 2;
+        profilePanel.add(new JLabel("Major"), constraints);
+        constraints.gridx = 1;
+        profilePanel.add(majorField, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        profilePanel.add(new JLabel("Grade"), constraints);
+        constraints.gridx = 1;
+        profilePanel.add(gradeField, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 4;
         profilePanel.add(new JLabel("Skill Tags"), constraints);
         constraints.gridx = 1;
         profilePanel.add(skillTagsField, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 5;
         profilePanel.add(new JLabel("CV"), constraints);
         constraints.gridx = 1;
         profilePanel.add(cvPathLabel, constraints);
@@ -155,13 +172,13 @@ public class StudentDashboardPanel extends JPanel {
         JButton chooseCvButton = new JButton("Choose PDF CV");
         chooseCvButton.addActionListener(event -> chooseCvFile());
         constraints.gridx = 1;
-        constraints.gridy = 4;
+        constraints.gridy = 6;
         profilePanel.add(chooseCvButton, constraints);
 
         JButton saveProfileButton = new JButton("Create / Update Profile");
         saveProfileButton.addActionListener(event -> saveProfile());
         constraints.gridx = 1;
-        constraints.gridy = 5;
+        constraints.gridy = 7;
         profilePanel.add(saveProfileButton, constraints);
 
         return profilePanel;
@@ -185,15 +202,17 @@ public class StudentDashboardPanel extends JPanel {
             currentStudent = studentController.findStudentByUserId(currentUser.getId()).orElse(null);
             updateProfileForm();
 
-            List<Job> jobs = jobController.getAllJobs();
+            List<Job> jobs = jobController.getOpenJobs();
             Map<String, String> jobCourses = new HashMap<>();
             jobsModel.setRowCount(0);
             for (Job job : jobs) {
+                String missingSkills = currentStudent == null ? "-" : String.join(", ", studentController.getMissingSkills(currentStudent.getId(), job));
                 jobsModel.addRow(new Object[]{
                         job.getId(),
                         valueOrPlaceholder(job.getCourseName()),
                         job.getTitle(),
                         String.join(", ", job.getRequiredSkills()),
+                        missingSkills,
                         job.getWeeklyHours(),
                         job.getDescription()
                 });
@@ -212,7 +231,7 @@ public class StudentDashboardPanel extends JPanel {
                     });
                 }
             }
-        } catch (ValidationException | DataAccessException exception) {
+        } catch (ValidationException | DataAccessException | BusinessException exception) {
             JOptionPane.showMessageDialog(this, exception.getMessage(), "Refresh Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -222,6 +241,8 @@ public class StudentDashboardPanel extends JPanel {
             profileStatusLabel.setText("Profile status: not created yet.");
             nameField.setText("");
             studentNumberField.setText("");
+            majorField.setText("");
+            gradeField.setText("");
             skillTagsField.setText("");
             if (selectedCvSourceFile == null) {
                 cvPathLabel.setText("No CV selected");
@@ -232,6 +253,8 @@ public class StudentDashboardPanel extends JPanel {
         profileStatusLabel.setText("Profile status: created. You can edit and save again.");
         nameField.setText(valueOrEmpty(currentStudent.getName()));
         studentNumberField.setText(valueOrEmpty(currentStudent.getStudentNumber()));
+        majorField.setText(valueOrEmpty(currentStudent.getMajor()));
+        gradeField.setText(valueOrEmpty(currentStudent.getGrade()));
         skillTagsField.setText(String.join(", ", currentStudent.getSkillTags()));
         if (selectedCvSourceFile != null) {
             cvPathLabel.setText(selectedCvSourceFile.getFileName().toString());
@@ -259,6 +282,8 @@ public class StudentDashboardPanel extends JPanel {
                     currentUser.getId(),
                     nameField.getText().trim(),
                     studentNumberField.getText().trim(),
+                    majorField.getText().trim(),
+                    gradeField.getText().trim(),
                     parseTags(skillTagsField.getText()),
                     selectedCvSourceFile
             );

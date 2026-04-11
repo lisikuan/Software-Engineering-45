@@ -1,11 +1,11 @@
 package edu.bupt.tarecruitment.validation;
 
-import edu.bupt.tarecruitment.common.exception.ValidationException;
-
 import java.util.List;
 
+import edu.bupt.tarecruitment.common.exception.ValidationException;
+
 public class JobValidator {
-    public void validateJobInput(String courseName, List<String> requiredSkills, int weeklyHours) throws ValidationException {
+    public void validateJobInput(String courseName, List<String> requiredSkills, int weeklyHours, int quota) throws ValidationException {
         if (courseName == null || courseName.isBlank()) {
             throw new ValidationException("Course name must not be blank.");
         }
@@ -14,6 +14,9 @@ public class JobValidator {
         }
         if (weeklyHours <= 0) {
             throw new ValidationException("Weekly hours must be a positive integer.");
+        }
+        if (quota <= 0) {
+            throw new ValidationException("Quota must be a positive integer.");
         }
     }
 }

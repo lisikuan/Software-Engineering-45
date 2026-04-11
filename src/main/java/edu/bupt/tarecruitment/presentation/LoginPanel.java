@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.presentation;
+package edu.bupt.tarecruitment.presentation;
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
@@ -31,7 +31,7 @@ public class LoginPanel extends JPanel {
         this.loginSuccessHandler = loginSuccessHandler;
         this.usernameField = new JTextField(18);
         this.passwordField = new JPasswordField(18);
-        this.roleBox = new JComboBox<>(new UserRole[]{UserRole.STUDENT, UserRole.ADMIN});
+        this.roleBox = new JComboBox<>(new UserRole[]{UserRole.TA, UserRole.MO});
         initializeUi();
     }
 

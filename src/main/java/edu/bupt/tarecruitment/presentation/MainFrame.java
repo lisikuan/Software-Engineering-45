@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.presentation;
+package edu.bupt.tarecruitment.presentation;
 
 import edu.bupt.tarecruitment.controller.ApplicationController;
 import edu.bupt.tarecruitment.controller.AuthController;
@@ -13,8 +13,8 @@ import java.awt.CardLayout;
 
 public class MainFrame extends JFrame {
     private static final String LOGIN_VIEW = "login";
-    private static final String STUDENT_VIEW = "student";
-    private static final String ADMIN_VIEW = "admin";
+    private static final String TA_VIEW = "ta";
+    private static final String MO_VIEW = "mo";
 
     private final AuthController authController;
     private final StudentController studentController;
@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
     }
 
     private void handleLoginSuccess(User user) {
-        if (user.getRole() == UserRole.STUDENT) {
+        if (user.getRole() == UserRole.TA) {
             contentPanel.add(
                     new StudentDashboardPanel(
                             user,
@@ -64,9 +64,9 @@ public class MainFrame extends JFrame {
                             applicationController,
                             this::showLoginView
                     ),
-                    STUDENT_VIEW
+                    TA_VIEW
             );
-            cardLayout.show(contentPanel, STUDENT_VIEW);
+            cardLayout.show(contentPanel, TA_VIEW);
         } else {
             contentPanel.add(
                     new AdminReviewPanel(
@@ -76,9 +76,9 @@ public class MainFrame extends JFrame {
                             applicationController,
                             this::showLoginView
                     ),
-                    ADMIN_VIEW
+                    MO_VIEW
             );
-            cardLayout.show(contentPanel, ADMIN_VIEW);
+            cardLayout.show(contentPanel, MO_VIEW);
         }
         refreshFrame();
     }

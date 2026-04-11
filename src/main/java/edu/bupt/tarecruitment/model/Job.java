@@ -13,7 +13,9 @@ import java.util.List;
  * - courseName stores the course entered by admin during job posting.
  * - requiredSkills stores the skill labels expected by the job.
  * - weeklyHours stores the expected weekly workload.
- * - [待确认] Whether later versions need additional job metadata.
+ * - status tracks whether the job is open or closed.
+ * - quota stores the maximum number of approved students.
+ * - publisherId references User.id of the MO who published the job.
  */
 public class Job {
     private String id;
@@ -22,13 +24,18 @@ public class Job {
     private String courseName;
     private List<String> requiredSkills;
     private int weeklyHours;
+    private int quota;
+    private JobStatus status;
+    private String publisherId;
 
     public Job() {
         this.requiredSkills = new ArrayList<>();
+        this.status = JobStatus.OPEN;
+        this.publisherId = "";
     }
 
     public Job(String id, String title, String description) {
-        this(id, title, description, null, new ArrayList<>(), 0);
+        this(id, title, description, null, new ArrayList<>(), 0, 1, JobStatus.OPEN, "");
     }
 
     public Job(
@@ -37,7 +44,10 @@ public class Job {
             String description,
             String courseName,
             List<String> requiredSkills,
-            int weeklyHours
+            int weeklyHours,
+            int quota,
+            JobStatus status,
+            String publisherId
     ) {
         this.id = id;
         this.title = title;
@@ -45,6 +55,9 @@ public class Job {
         this.courseName = courseName;
         this.requiredSkills = requiredSkills == null ? new ArrayList<>() : new ArrayList<>(requiredSkills);
         this.weeklyHours = weeklyHours;
+        this.quota = quota;
+        this.status = status == null ? JobStatus.OPEN : status;
+        this.publisherId = publisherId == null ? "" : publisherId;
     }
 
     public String getId() {
@@ -93,5 +106,29 @@ public class Job {
 
     public void setWeeklyHours(int weeklyHours) {
         this.weeklyHours = weeklyHours;
+    }
+
+    public int getQuota() {
+        return quota;
+    }
+
+    public void setQuota(int quota) {
+        this.quota = quota;
+    }
+
+    public JobStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(JobStatus status) {
+        this.status = status;
+    }
+
+    public String getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(String publisherId) {
+        this.publisherId = publisherId;
     }
 }

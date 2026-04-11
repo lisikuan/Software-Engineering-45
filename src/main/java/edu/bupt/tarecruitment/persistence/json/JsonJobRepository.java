@@ -37,6 +37,13 @@ public class JsonJobRepository extends AbstractJsonRepository<Job> implements Jo
     }
 
     @Override
+    public List<Job> findByPublisherId(String publisherId) throws DataAccessException {
+        return readAll().stream()
+                .filter(job -> publisherId != null && publisherId.equals(job.getPublisherId()))
+                .toList();
+    }
+
+    @Override
     public Job insert(Job job) throws DataAccessException {
         return insertEntity(job);
     }

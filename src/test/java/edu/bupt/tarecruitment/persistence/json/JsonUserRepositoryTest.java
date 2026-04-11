@@ -32,15 +32,15 @@ class JsonUserRepositoryTest {
     @Test
     void insertWritesUserToUsersJson() throws Exception {
         JsonUserRepository repository = createRepositoryWithUsersJson("[]");
-        User user = new User("U001", "student1", "student123", UserRole.STUDENT);
+        User user = new User("U001", "ta1", "ta123", UserRole.TA);
 
         repository.insert(user);
 
         String json = Files.readString(tempDir.resolve("users.json"));
         assertTrue(json.contains("\"id\" : \"U001\""));
-        assertTrue(json.contains("\"username\" : \"student1\""));
-        assertTrue(json.contains("\"password\" : \"student123\""));
-        assertTrue(json.contains("\"role\" : \"STUDENT\""));
+        assertTrue(json.contains("\"username\" : \"ta1\""));
+        assertTrue(json.contains("\"password\" : \"ta123\""));
+        assertTrue(json.contains("\"role\" : \"TA\""));
     }
 
     @Test
@@ -49,19 +49,19 @@ class JsonUserRepositoryTest {
                 [
                   {
                     "id": "U001",
-                    "username": "student1",
-                    "password": "student123",
-                    "role": "STUDENT"
+                    "username": "ta1",
+                    "password": "ta123",
+                    "role": "TA"
                   }
                 ]
                 """);
 
-        repository.update(new User("U001", "student2", "newPass", UserRole.ADMIN));
+        repository.update(new User("U001", "ta2", "newPass", UserRole.MO));
 
         User storedUser = repository.findById("U001").orElseThrow();
-        assertEquals("student2", storedUser.getUsername());
+        assertEquals("ta2", storedUser.getUsername());
         assertEquals("newPass", storedUser.getPassword());
-        assertEquals(UserRole.ADMIN, storedUser.getRole());
+        assertEquals(UserRole.MO, storedUser.getRole());
     }
 
     @Test
@@ -70,9 +70,9 @@ class JsonUserRepositoryTest {
                 [
                   {
                     "id": "U001",
-                    "username": "student1",
-                    "password": "student123",
-                    "role": "STUDENT"
+                    "username": "ta1",
+                    "password": "ta123",
+                    "role": "TA"
                   }
                 ]
                 """);
@@ -98,16 +98,16 @@ class JsonUserRepositoryTest {
                 [
                   {
                     "id": "U001",
-                    "username": "student1",
-                    "password": "student123",
-                    "role": "STUDENT"
+                    "username": "ta1",
+                    "password": "ta123",
+                    "role": "TA"
                   }
                 ]
                 """);
 
         DataAccessException exception = assertThrows(
                 DataAccessException.class,
-                () -> repository.insert(new User("U001", "admin1", "admin123", UserRole.ADMIN))
+                () -> repository.insert(new User("U001", "mo1", "mo123", UserRole.MO))
         );
 
         assertTrue(exception.getMessage().contains("Duplicate id 'U001'"));

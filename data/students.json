@@ -1,1 +1,10 @@
-[  ]
+[ {
+  "id" : "S001",
+  "name" : "lzl",
+  "userId" : "U001",
+  "studentNumber" : "321",
+  "major" : "21",
+  "grade" : "121",
+  "skillTags" : [ "123" ],
+  "cvFilePath" : null
+} ]

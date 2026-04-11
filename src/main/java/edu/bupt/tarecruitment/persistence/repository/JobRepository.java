@@ -15,13 +15,14 @@ import java.util.Optional;
  * - the current minimal field set is id, title, description only.
  * - update must throw DataAccessException when the target id does not exist.
  * - interface naming remains unchanged for now.
- * - [待确认] Whether additional lookup methods are needed for course, teacher,
- *   publisher, or publish status.
+ * - publisherId references User.id of the MO who published the job.
  */
 public interface JobRepository {
     List<Job> findAll() throws DataAccessException;
 
     Optional<Job> findById(String id) throws DataAccessException;
+
+    List<Job> findByPublisherId(String publisherId) throws DataAccessException;
 
     Job insert(Job job) throws DataAccessException;
 

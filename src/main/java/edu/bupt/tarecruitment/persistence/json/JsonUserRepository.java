@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.persistence.json;
+package edu.bupt.tarecruitment.persistence.json;
 
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
 import edu.bupt.tarecruitment.model.User;
