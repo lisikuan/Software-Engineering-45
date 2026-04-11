@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * Responsibility: persist User entities to data/users.json using the current
- * minimal schema {id, username, password, role}. [´ýÈ·ÈÏ] Password storage
+ * minimal schema {id, username, password, role}. [???] Password storage
  * should be hardened in a later iteration.
  */
 public class JsonUserRepository extends AbstractJsonRepository<User> implements UserRepository {

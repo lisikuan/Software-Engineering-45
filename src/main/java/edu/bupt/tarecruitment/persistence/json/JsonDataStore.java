@@ -28,7 +28,7 @@ import java.util.List;
  *   jobId, status.
  * - data/users.json: array of User objects with id, username, password, role.
  * - JSON field order is not treated as a strong contract.
- * - [´ýÈ·ÈÏ] Additional schema constraints from course documents or team report.
+ * - [???] Additional schema constraints from course documents or team report.
  */
 public class JsonDataStore {
     private final Path dataDirectory;
