@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.common;
+package edu.bupt.tarecruitment.common;
 
 import edu.bupt.tarecruitment.controller.ApplicationController;
 import edu.bupt.tarecruitment.controller.AuthController;

@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.service;
+package edu.bupt.tarecruitment.service;
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.model.Application;

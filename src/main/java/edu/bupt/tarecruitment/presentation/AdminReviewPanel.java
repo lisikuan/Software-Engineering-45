@@ -1,4 +1,4 @@
-ï»¿package edu.bupt.tarecruitment.presentation;
+package edu.bupt.tarecruitment.presentation;
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
@@ -94,7 +94,7 @@ public class AdminReviewPanel extends JPanel {
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.add(new JLabel("Admin Review Dashboard"));
         headerPanel.add(new JLabel("Current User: " + currentUser.getUsername()));
-        headerPanel.add(new JLabel("[å¾…ç¡®è®¤] MO is merged into ADMIN for the current runnable test version."));
+        headerPanel.add(new JLabel("[´ýÈ·ÈÏ] MO is merged into ADMIN for the current runnable test version."));
         add(headerPanel, BorderLayout.NORTH);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildApplicationsPanel(), buildRightPanel());
@@ -272,7 +272,7 @@ public class AdminReviewPanel extends JPanel {
             studentNameLabel.setText(valueOrPlaceholder(selectedStudent.getName()));
             studentNumberLabel.setText(valueOrPlaceholder(selectedStudent.getStudentNumber()));
             studentSkillsLabel.setText(selectedStudent.getSkillTags().isEmpty()
-                    ? "[å¾…ç¡®è®¤]"
+                    ? "[´ýÈ·ÈÏ]"
                     : selectedStudent.getSkillTags().stream().collect(Collectors.joining(", ")));
             studentCvLabel.setText(valueOrPlaceholder(selectedStudent.getCvFilePath()));
         } catch (ValidationException | BusinessException | DataAccessException exception) {
@@ -332,6 +332,6 @@ public class AdminReviewPanel extends JPanel {
     }
 
     private String valueOrPlaceholder(String value) {
-        return value == null || value.isBlank() ? "[å¾…ç¡®è®¤]" : value;
+        return value == null || value.isBlank() ? "[´ýÈ·ÈÏ]" : value;
     }
 }

@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment;
+package edu.bupt.tarecruitment;
 
 import edu.bupt.tarecruitment.common.ApplicationBootstrap;
 import edu.bupt.tarecruitment.presentation.MainFrame;

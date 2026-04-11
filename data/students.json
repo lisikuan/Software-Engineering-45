@@ -1,1 +1,8 @@
-[  ]
+[ {
+  "id" : "S001",
+  "name" : "LSK",
+  "userId" : "U001",
+  "studentNumber" : "123456",
+  "skillTags" : [ "study" ],
+  "cvFilePath" : "cvs/S001.pdf"
+} ]

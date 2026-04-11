@@ -1,4 +1,4 @@
-ï»¿package edu.bupt.tarecruitment.presentation;
+package edu.bupt.tarecruitment.presentation;
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
@@ -301,7 +301,7 @@ public class StudentDashboardPanel extends JPanel {
     }
 
     private String valueOrPlaceholder(String value) {
-        return value == null || value.isBlank() ? "[å¾…ç¡®è®¤]" : value;
+        return value == null || value.isBlank() ? "[´ýÈ·ÈÏ]" : value;
     }
 
     private String valueOrEmpty(String value) {
