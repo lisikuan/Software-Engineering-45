@@ -1,4 +1,5 @@
 package edu.bupt.tarecruitment.presentation;
+<<<<<<< HEAD
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -22,6 +23,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+=======
+>>>>>>> 3671f8efbaf0da2baeaf2e256d12a477dd7b649b
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
@@ -112,6 +115,10 @@ public class AdminReviewPanel extends JPanel {
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.add(new JLabel("MO Review Dashboard"));
         headerPanel.add(new JLabel("Current User: " + currentUser.getUsername()));
+<<<<<<< HEAD
+=======
+        headerPanel.add(new JLabel("[待确认] MO is merged into ADMIN for the current runnable test version."));
+>>>>>>> 3671f8efbaf0da2baeaf2e256d12a477dd7b649b
         add(headerPanel, BorderLayout.NORTH);
 
         JSplitPane splitPane = new JSplitPane(
@@ -393,7 +400,7 @@ public class AdminReviewPanel extends JPanel {
             studentNameLabel.setText(valueOrPlaceholder(selectedStudent.getName()));
             studentNumberLabel.setText(valueOrPlaceholder(selectedStudent.getStudentNumber()));
             studentSkillsLabel.setText(selectedStudent.getSkillTags().isEmpty()
-                    ? "[寰呯‘璁"
+                    ? "[待确认]"
                     : selectedStudent.getSkillTags().stream().collect(Collectors.joining(", ")));
             studentCvLabel.setText(valueOrPlaceholder(selectedStudent.getCvFilePath()));
         } catch (ValidationException | BusinessException | DataAccessException exception) {
@@ -453,6 +460,6 @@ public class AdminReviewPanel extends JPanel {
     }
 
     private String valueOrPlaceholder(String value) {
-        return value == null || value.isBlank() ? "[寰呯‘璁" : value;
+        return value == null || value.isBlank() ? "[待确认]" : value;
     }
 }

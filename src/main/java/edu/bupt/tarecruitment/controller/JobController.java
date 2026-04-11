@@ -1,6 +1,9 @@
 package edu.bupt.tarecruitment.controller;
+<<<<<<< HEAD
 
 import java.util.List;
+=======
+>>>>>>> 3671f8efbaf0da2baeaf2e256d12a477dd7b649b
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;

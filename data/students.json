@@ -1,5 +1,6 @@
 [ {
   "id" : "S001",
+<<<<<<< HEAD
   "name" : "lzl",
   "userId" : "U001",
   "studentNumber" : "321",
@@ -7,4 +8,11 @@
   "grade" : "121",
   "skillTags" : [ "123" ],
   "cvFilePath" : null
+=======
+  "name" : "LSK",
+  "userId" : "U001",
+  "studentNumber" : "123456",
+  "skillTags" : [ "study" ],
+  "cvFilePath" : "cvs/S001.pdf"
+>>>>>>> 3671f8efbaf0da2baeaf2e256d12a477dd7b649b
 } ]

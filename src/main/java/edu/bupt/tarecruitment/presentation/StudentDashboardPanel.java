@@ -326,7 +326,7 @@ public class StudentDashboardPanel extends JPanel {
     }
 
     private String valueOrPlaceholder(String value) {
-        return value == null || value.isBlank() ? "[å¾…ç¡®è®¤]" : value;
+        return value == null || value.isBlank() ? "[´ýÈ·ÈÏ]" : value;
     }
 
     private String valueOrEmpty(String value) {
