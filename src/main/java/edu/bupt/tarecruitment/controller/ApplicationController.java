@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.controller;
+package edu.bupt.tarecruitment.controller;
 
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;

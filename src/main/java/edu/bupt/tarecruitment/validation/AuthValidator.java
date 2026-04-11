@@ -1,4 +1,4 @@
-﻿package edu.bupt.tarecruitment.validation;
+package edu.bupt.tarecruitment.validation;
 
 import edu.bupt.tarecruitment.common.exception.ValidationException;
 import edu.bupt.tarecruitment.model.UserRole;

@@ -1,4 +1,4 @@
-ï»¿package edu.bupt.tarecruitment.model;
+package edu.bupt.tarecruitment.model;
 
 /**
  * Responsibility: represent the minimal persisted User entity for login and
@@ -9,7 +9,7 @@
  * - username is the login name shown in the UI.
  * - password is stored as plain text only for the current runnable test version.
  * - role controls whether the UI opens the student or admin flow.
- * - [å¾…ç¡®è®¤] A safer password storage strategy for later iterations.
+ * - [´ýÈ·ÈÏ] A safer password storage strategy for later iterations.
  */
 public class User {
     private String id;

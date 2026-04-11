@@ -1,7 +1,7 @@
-ï»¿package edu.bupt.tarecruitment.model;
+package edu.bupt.tarecruitment.model;
 
 public enum UserRole {
     STUDENT,
     ADMIN
-    // [å¾…ç¡®è®¤] Whether MO should be represented as a separate role in a later iteration.
+    // [´ıÈ·ÈÏ] Whether MO should be represented as a separate role in a later iteration.
 }

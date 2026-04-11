@@ -1,4 +1,4 @@
-ï»¿package edu.bupt.tarecruitment.persistence.json;
+package edu.bupt.tarecruitment.persistence.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -28,7 +28,7 @@ import java.util.List;
  *   jobId, status.
  * - data/users.json: array of User objects with id, username, password, role.
  * - JSON field order is not treated as a strong contract.
- * - [å¾…ç¡®è®¤] Additional schema constraints from course documents or team report.
+ * - [´ýÈ·ÈÏ] Additional schema constraints from course documents or team report.
  */
 public class JsonDataStore {
     private final Path dataDirectory;
