@@ -2,28 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>MO/Admin Login</title>
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-<div class="page-shell">
-    <header class="hero-card">
-        <div class="system-title">BUPT International School</div>
-        <div class="system-subtitle">TA Recruitment System</div>
-    </header>
-
-    <main class="content-grid single-column">
-        <section class="panel">
-            <div class="panel-header">
-                <h2>Login</h2>
-                <span class="status-chip">Prototype UI</span>
+<main class="login-shell">
+    <section class="panel login-card">
+        <div class="login-intro">
+            <div class="brand-block">
+                <div class="brand-mark">TA</div>
+                <div>
+                    <p class="brand-title">System</p>
+                    <p class="brand-caption">Teaching Assistant Recruitment</p>
+                </div>
             </div>
+            <h1>Welcome back</h1>
+            <p>Review applications, publish module positions, and keep TA workload balanced from one clean workspace.</p>
+        </div>
+
+        <div class="panel-body">
+            <div class="page-heading">
+                <div>
+                    <h1>MO / Admin Login</h1>
+                    <p>Use your role account to continue.</p>
+                </div>
+                <span class="status-chip">Prototype</span>
+            </div>
+
             <form action="/login" method="post" class="form-grid">
                 <label class="full-width">
                     <span>Select Role</span>
-                    <div class="button-row">
+                    <div class="role-options">
                         <label><input type="radio" name="role" value="TA"/> TA</label>
-                        <label><input type="radio" name="role" value="MO" checked="checked"/> Module Organiser (MO)</label>
+                        <label><input type="radio" name="role" value="MO" checked="checked"/> MO</label>
                         <label><input type="radio" name="role" value="ADMIN"/> Admin</label>
                     </div>
                 </label>
@@ -39,27 +51,22 @@
                 </label>
 
                 <div class="message-box">
-                    TA first-time login: please complete your profile.
+                    First-time TA users should complete their profile before applying for positions.
                 </div>
 
-                <div class="button-row">
+                <div class="button-row full-width">
                     <button type="submit" class="primary-button">Login</button>
                     <button type="reset" class="secondary-button">Clear</button>
                 </div>
             </form>
-        </section>
 
-        <section class="panel">
-            <div class="panel-header">
-                <h2>Quick Navigation</h2>
+            <div class="toolbar" style="margin-top: 24px; margin-bottom: 0;">
+                <a class="secondary-button" href="job-posting.jsp">Job Posting</a>
+                <a class="secondary-button" href="review-panel.jsp">Review Panel</a>
+                <a class="secondary-button" href="workload-monitor.jsp">Workload Monitor</a>
             </div>
-            <nav class="nav-links">
-                <a href="job-posting.jsp">MO Job Posting</a>
-                <a href="review-panel.jsp">MO Review Panel</a>
-                <a href="workload-monitor.jsp">Admin Workload Monitor</a>
-            </nav>
-        </section>
-    </main>
-</div>
+        </div>
+    </section>
+</main>
 </body>
 </html>
