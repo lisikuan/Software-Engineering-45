@@ -36,7 +36,9 @@ class JobServiceTest {
                 "Software Testing",
                 List.of("JUnit", "Communication"),
                 4,
-                "Assist lab exercises"
+                1,
+                "Assist lab exercises",
+                "U900"
         );
 
         assertEquals("J002", saved.getId());
@@ -44,6 +46,7 @@ class JobServiceTest {
         assertEquals("Software Testing", saved.getCourseName());
         assertEquals(List.of("JUnit", "Communication"), saved.getRequiredSkills());
         assertEquals(4, saved.getWeeklyHours());
+        assertEquals(1, saved.getQuota());
     }
 
     private JobService createJobService(String jobsJson) throws Exception {

@@ -1,5 +1,6 @@
 package edu.bupt.tarecruitment.common;
 
+import edu.bupt.tarecruitment.controller.AiController;
 import edu.bupt.tarecruitment.controller.ApplicationController;
 import edu.bupt.tarecruitment.controller.AuthController;
 import edu.bupt.tarecruitment.controller.JobController;
@@ -11,10 +12,13 @@ import edu.bupt.tarecruitment.persistence.json.JsonJobRepository;
 import edu.bupt.tarecruitment.persistence.json.JsonStudentRepository;
 import edu.bupt.tarecruitment.persistence.json.JsonUserRepository;
 import edu.bupt.tarecruitment.presentation.MainFrame;
+import edu.bupt.tarecruitment.service.AiMatchingService;
 import edu.bupt.tarecruitment.service.ApplicationService;
 import edu.bupt.tarecruitment.service.AuthService;
 import edu.bupt.tarecruitment.service.JobService;
+import edu.bupt.tarecruitment.service.SkillNormalizer;
 import edu.bupt.tarecruitment.service.StudentService;
+import edu.bupt.tarecruitment.service.WorkloadService;
 import edu.bupt.tarecruitment.validation.ApplicationValidator;
 import edu.bupt.tarecruitment.validation.AuthValidator;
 import edu.bupt.tarecruitment.validation.JobValidator;
@@ -44,6 +48,13 @@ public class ApplicationBootstrap {
         );
         AuthController authController = new AuthController(new AuthService(userRepository, new AuthValidator()));
 
-        return new MainFrame(authController, studentController, jobController, applicationController);
+        // AI services
+        SkillNormalizer skillNormalizer = new SkillNormalizer();
+        AiMatchingService aiMatchingService = new AiMatchingService(studentRepository, jobRepository, skillNormalizer);
+        WorkloadService workloadService = new WorkloadService(
+                studentRepository, jobRepository, applicationRepository, aiMatchingService);
+        AiController aiController = new AiController(aiMatchingService, workloadService);
+
+        return new MainFrame(authController, studentController, jobController, applicationController, aiController);
     }
 }

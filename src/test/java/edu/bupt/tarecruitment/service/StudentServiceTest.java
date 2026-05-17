@@ -31,6 +31,8 @@ class StudentServiceTest {
                 "U001",
                 "Alice",
                 "2024001",
+                "CS",
+                "3",
                 List.of("Java", "Communication"),
                 cvFile
         );
@@ -59,7 +61,7 @@ class StudentServiceTest {
 
         assertThrows(
                 BusinessException.class,
-                () -> studentService.saveProfile("U002", "Bob", "2024001", List.of("SQL"), null)
+                () -> studentService.saveProfile("U002", "Bob", "2024001", "CS", "3", List.of("SQL"), null)
         );
     }
 
@@ -78,7 +80,7 @@ class StudentServiceTest {
                 ]
                 """);
 
-        Student updated = studentService.saveProfile("U001", "Alice Chen", "2024999", List.of("Java", "SQL"), null);
+        Student updated = studentService.saveProfile("U001", "Alice Chen", "2024999", "CS", "3", List.of("Java", "SQL"), null);
 
         assertEquals("S001", updated.getId());
         assertEquals("Alice Chen", updated.getName());

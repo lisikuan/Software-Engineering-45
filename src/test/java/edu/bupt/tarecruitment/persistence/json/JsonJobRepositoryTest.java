@@ -31,7 +31,7 @@ class JsonJobRepositoryTest {
     @Test
     void insertWritesJobToJobsJson() throws Exception {
         JsonJobRepository repository = createRepositoryWithJobsJson("[]");
-        Job job = new Job("J001", "Java Programming TA", "Assist with labs", "Java Programming", List.of("Java", "Communication"), 6);
+        Job job = new Job("J001", "Java Programming TA", "Assist with labs", "Java Programming", List.of("Java", "Communication"), 6, 2, edu.bupt.tarecruitment.model.JobStatus.OPEN, "U900");
 
         repository.insert(job);
 
@@ -58,7 +58,7 @@ class JsonJobRepositoryTest {
 
         DataAccessException exception = assertThrows(
                 DataAccessException.class,
-                () -> repository.insert(new Job("J001", "Database TA", "Assist with grading", "Database Systems", List.of("SQL"), 5))
+                () -> repository.insert(new Job("J001", "Database TA", "Assist with grading", "Database Systems", List.of("SQL"), 5, 1, edu.bupt.tarecruitment.model.JobStatus.OPEN, "U900"))
         );
 
         assertTrue(exception.getMessage().contains("Duplicate id 'J001'"));
@@ -79,7 +79,7 @@ class JsonJobRepositoryTest {
                 ]
                 """);
 
-        repository.update(new Job("J001", "Advanced Java TA", "Assist with lectures", "Advanced Java", List.of("Java", "Tutoring"), 8));
+        repository.update(new Job("J001", "Advanced Java TA", "Assist with lectures", "Advanced Java", List.of("Java", "Tutoring"), 8, 2, edu.bupt.tarecruitment.model.JobStatus.OPEN, "U900"));
 
         Job storedJob = repository.findById("J001").orElseThrow();
         assertEquals("Advanced Java", storedJob.getCourseName());
