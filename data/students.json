@@ -1,0 +1,10 @@
+[ {
+  "id" : "S001",
+  "name" : "LSK",
+  "userId" : "U001",
+  "studentNumber" : "123456",
+  "major" : "CS",
+  "grade" : "3",
+  "skillTags" : [ "study" ],
+  "cvFilePath" : "cvs/S001.pdf"
+} ]
