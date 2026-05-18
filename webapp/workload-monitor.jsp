@@ -13,16 +13,6 @@
             <div class="brand-mark">TA</div>
             <div>
                 <p class="brand-title">System</p>
-<<<<<<< Updated upstream
-                <p class="brand-caption">Admin Portal</p>
-            </div>
-        </div>
-        <nav class="side-nav">
-            <a href="login.jsp"><span class="nav-icon">01</span> Login</a>
-            <a href="review-panel.jsp"><span class="nav-icon">02</span> Applications</a>
-            <a href="job-posting.jsp"><span class="nav-icon">03</span> Modules</a>
-            <a href="workload-monitor.jsp" class="current"><span class="nav-icon">04</span> Workload</a>
-=======
                 <p class="brand-caption">Workload Overview</p>
             </div>
         </div>
@@ -31,22 +21,12 @@
             <a href="review-panel.jsp"><span class="nav-index">02</span> Applications</a>
             <a href="job-posting.jsp"><span class="nav-index">03</span> Modules</a>
             <a href="workload-monitor.jsp" class="current"><span class="nav-index">04</span> Workload</a>
->>>>>>> Stashed changes
         </nav>
         <div class="sidebar-footer">TA Recruitment System</div>
     </aside>
 
     <div class="main-shell">
         <header class="topbar">
-<<<<<<< Updated upstream
-            <div class="bell">N</div>
-            <div class="user-pill">
-                <div>
-                    <p class="user-name">Admin Office</p>
-                    <p class="user-role">Workload Supervisor</p>
-                </div>
-                <div class="avatar">A</div>
-=======
             <div class="topbar-icon">N</div>
             <div class="user-pill">
                 <div>
@@ -54,7 +34,6 @@
                     <p class="user-role">Workload Supervisor</p>
                 </div>
                 <div class="avatar">M</div>
->>>>>>> Stashed changes
             </div>
         </header>
 
@@ -77,11 +56,7 @@
                 <div class="panel">
                     <div class="panel-header">
                         <h2>Assigned Workload</h2>
-<<<<<<< Updated upstream
-                        <span class="status-chip">Admin</span>
-=======
                         <span class="status-chip">Overview</span>
->>>>>>> Stashed changes
                     </div>
                     <div class="panel-body">
                         <form action="/workload" method="get" class="filter-row">
@@ -136,11 +111,7 @@
 
                 <div class="panel">
                     <div class="panel-header">
-<<<<<<< Updated upstream
-                        <h2>Admin Actions</h2>
-=======
                         <h2>Workload Actions</h2>
->>>>>>> Stashed changes
                         <span class="status-chip pending">Adjustment</span>
                     </div>
                     <div class="panel-body">
@@ -149,10 +120,7 @@
                                 <span>TA ID</span>
                                 <input name="studentId" placeholder="TA-003"/>
                             </label>
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
                             <label class="full-width">
                                 <span>Suggested Action</span>
                                 <select name="actionType">
@@ -161,18 +129,12 @@
                                     <option value="approve">Approve Exception</option>
                                 </select>
                             </label>
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
                             <label class="full-width">
                                 <span>Note</span>
                                 <textarea name="note" rows="6" placeholder="Explain why the workload needs adjustment."></textarea>
                             </label>
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
                             <div class="button-row full-width">
                                 <button type="submit" class="primary-button">Submit Action</button>
                             </div>

@@ -1,29 +1,5 @@
 package edu.bupt.tarecruitment.presentation;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
-
 import edu.bupt.tarecruitment.common.exception.BusinessException;
 import edu.bupt.tarecruitment.common.exception.DataAccessException;
 import edu.bupt.tarecruitment.common.exception.ValidationException;
@@ -35,7 +11,39 @@ import edu.bupt.tarecruitment.model.Job;
 import edu.bupt.tarecruitment.model.Student;
 import edu.bupt.tarecruitment.model.User;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JComponent;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class StudentDashboardPanel extends JPanel {
+    private static final String VIEW_DASHBOARD = "dashboard";
+    private static final String VIEW_APPLICATIONS = "applications";
+    private static final String VIEW_PROFILE = "profile";
+
     private final User currentUser;
     private final StudentController studentController;
     private final JobController jobController;
@@ -44,6 +52,7 @@ public class StudentDashboardPanel extends JPanel {
     private final DefaultTableModel jobsModel;
     private final DefaultTableModel applicationsModel;
     private final JTable jobsTable;
+    private final JTable applicationsTable;
     private final JLabel profileStatusLabel;
     private final JTextField nameField;
     private final JTextField studentNumberField;
@@ -51,9 +60,13 @@ public class StudentDashboardPanel extends JPanel {
     private final JTextField gradeField;
     private final JTextField skillTagsField;
     private final JLabel cvPathLabel;
+    private final DashboardShell.StatCard openJobsCard;
+    private final DashboardShell.StatCard applicationsCard;
+    private final DashboardShell.StatCard profileCard;
 
     private Student currentStudent;
     private Path selectedCvSourceFile;
+    private String currentView;
 
     public StudentDashboardPanel(
             User currentUser,
@@ -86,6 +99,7 @@ public class StudentDashboardPanel extends JPanel {
             }
         };
         this.jobsTable = new JTable(jobsModel);
+        this.applicationsTable = new JTable(applicationsModel);
         this.profileStatusLabel = new JLabel();
         this.nameField = new JTextField(18);
         this.studentNumberField = new JTextField(18);
@@ -93,108 +107,221 @@ public class StudentDashboardPanel extends JPanel {
         this.gradeField = new JTextField(18);
         this.skillTagsField = new JTextField(18);
         this.cvPathLabel = new JLabel("No CV selected");
+        this.openJobsCard = DashboardShell.statCard("Open Jobs", "0");
+        this.applicationsCard = DashboardShell.statCard("My Applications", "0");
+        this.profileCard = DashboardShell.statCard("Profile Status", "Pending");
+        this.currentView = VIEW_DASHBOARD;
         initializeUi();
         refreshData();
     }
 
     private void initializeUi() {
-        setLayout(new BorderLayout(12, 12));
-        setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        setLayout(new BorderLayout());
+        setBackground(UiTheme.PAGE_BG);
 
-        JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
-        headerPanel.add(new JLabel("TA Dashboard"));
-        headerPanel.add(new JLabel("Current User: " + currentUser.getUsername()));
-        headerPanel.add(profileStatusLabel);
-        add(headerPanel, BorderLayout.NORTH);
+        UiTheme.styleTable(jobsTable);
+        UiTheme.styleTable(applicationsTable);
+        UiTheme.styleField(nameField);
+        UiTheme.styleField(studentNumberField);
+        UiTheme.styleField(majorField);
+        UiTheme.styleField(gradeField);
+        UiTheme.styleField(skillTagsField);
+        renderView();
+    }
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildProfilePanel(), buildJobsPanel());
+    private void renderView() {
+        removeAll();
+
+        JPanel content = new JPanel(new BorderLayout(0, 22));
+        content.setOpaque(false);
+        content.add(DashboardShell.buildStatsRow(openJobsCard, applicationsCard, profileCard), BorderLayout.NORTH);
+        content.add(buildBodyForCurrentView(), BorderLayout.CENTER);
+
+        add(DashboardShell.buildShell(
+                "TA Workspace",
+                List.of(
+                        new DashboardShell.NavItem("01", "Dashboard", VIEW_DASHBOARD.equals(currentView), () -> switchView(VIEW_DASHBOARD)),
+                        new DashboardShell.NavItem("02", "Applications", VIEW_APPLICATIONS.equals(currentView), () -> switchView(VIEW_APPLICATIONS)),
+                        new DashboardShell.NavItem("03", "Profile", VIEW_PROFILE.equals(currentView), () -> switchView(VIEW_PROFILE)),
+                        new DashboardShell.NavItem("04", "Logout", false, logoutAction)
+                ),
+                currentUser.getUsername(),
+                "Teaching Assistant",
+                viewTitle(),
+                viewSubtitle(),
+                content
+        ), BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
+    }
+
+    private JComponent buildBodyForCurrentView() {
+        return switch (currentView) {
+            case VIEW_APPLICATIONS -> buildApplicationsView();
+            case VIEW_PROFILE -> buildProfileOnlyView();
+            default -> buildDashboardView();
+        };
+    }
+
+    private JSplitPane buildDashboardView() {
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildProfileCard(), buildJobsCard());
         splitPane.setResizeWeight(0.35);
-        add(splitPane, BorderLayout.CENTER);
+        splitPane.setBorder(BorderFactory.createEmptyBorder());
+        return splitPane;
+    }
 
-        JPanel buttonPanel = new JPanel();
+    private JPanel buildApplicationsView() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
+        panel.add(buildJobsCard(), BorderLayout.CENTER);
+        return panel;
+    }
+
+    private JPanel buildProfileOnlyView() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
+        JScrollPane scrollPane = new JScrollPane(buildProfileCard());
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(UiTheme.PAGE_BG);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(12);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        return panel;
+    }
+
+    private void switchView(String nextView) {
+        if (nextView.equals(currentView)) {
+            return;
+        }
+        currentView = nextView;
+        renderView();
+    }
+
+    private String viewTitle() {
+        return switch (currentView) {
+            case VIEW_APPLICATIONS -> "Applications";
+            case VIEW_PROFILE -> "Profile";
+            default -> "TA Dashboard";
+        };
+    }
+
+    private String viewSubtitle() {
+        return switch (currentView) {
+            case VIEW_APPLICATIONS -> "Browse open positions and monitor your submission results.";
+            case VIEW_PROFILE -> "Maintain your profile, skills, and CV before applying.";
+            default -> "Manage your profile, browse jobs, and track application progress.";
+        };
+    }
+
+    private JPanel buildProfileCard() {
+        JPanel wrapper = new JPanel(new BorderLayout(0, 16));
+        UiTheme.styleSection(wrapper);
+
+        JPanel header = new JPanel(new BorderLayout());
+        header.setOpaque(false);
+        header.add(UiTheme.sectionTitle("Student Profile"), BorderLayout.WEST);
+        header.add(UiTheme.badge("TA"), BorderLayout.EAST);
+        wrapper.add(header, BorderLayout.NORTH);
+
+        JPanel body = new JPanel(new BorderLayout(0, 14));
+        body.setOpaque(false);
+
+        profileStatusLabel.setFont(UiTheme.BODY_FONT);
+        body.add(profileStatusLabel, BorderLayout.NORTH);
+
+        JPanel form = new JPanel();
+        form.setOpaque(false);
+        form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
+        form.add(fieldBlock("Name", nameField));
+        form.add(Box.createVerticalStrut(12));
+        form.add(fieldBlock("Student Number", studentNumberField));
+        form.add(Box.createVerticalStrut(12));
+        form.add(fieldBlock("Major", majorField));
+        form.add(Box.createVerticalStrut(12));
+        form.add(fieldBlock("Grade", gradeField));
+        form.add(Box.createVerticalStrut(12));
+        form.add(fieldBlock("Skill Tags", skillTagsField));
+        form.add(Box.createVerticalStrut(12));
+        form.add(fieldBlock("CV", buildCvInfoPanel()));
+        form.add(Box.createVerticalStrut(12));
+        JButton chooseCvButton = new JButton("Choose PDF CV");
+        UiTheme.styleSecondaryButton(chooseCvButton);
+        chooseCvButton.addActionListener(event -> chooseCvFile());
+        form.add(chooseCvButton);
+        form.add(Box.createVerticalStrut(12));
+        JButton saveProfileButton = new JButton("Create / Update Profile");
+        UiTheme.stylePrimaryButton(saveProfileButton);
+        saveProfileButton.addActionListener(event -> saveProfile());
+        form.add(saveProfileButton);
+
+        body.add(form, BorderLayout.CENTER);
+        wrapper.add(body, BorderLayout.CENTER);
+        return wrapper;
+    }
+
+    private JPanel buildCvInfoPanel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        panel.setOpaque(false);
+        cvPathLabel.setFont(UiTheme.BODY_FONT);
+        cvPathLabel.setForeground(UiTheme.MUTED);
+        panel.add(cvPathLabel);
+        return panel;
+    }
+
+    private JPanel buildJobsCard() {
+        JPanel wrapper = new JPanel(new BorderLayout(0, 16));
+        UiTheme.styleSection(wrapper);
+
+        JPanel header = new JPanel(new BorderLayout());
+        header.setOpaque(false);
+        header.add(UiTheme.sectionTitle("Jobs & Applications"), BorderLayout.WEST);
+        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        actions.setOpaque(false);
         JButton submitButton = new JButton("Submit Selected Job");
         submitButton.addActionListener(event -> submitSelectedJob());
+        UiTheme.stylePrimaryButton(submitButton);
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(event -> refreshData());
+        UiTheme.styleSecondaryButton(refreshButton);
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(event -> logoutAction.run());
-        buttonPanel.add(submitButton);
-        buttonPanel.add(refreshButton);
-        buttonPanel.add(logoutButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        UiTheme.styleDangerButton(logoutButton);
+        actions.add(submitButton);
+        actions.add(refreshButton);
+        actions.add(logoutButton);
+        header.add(actions, BorderLayout.EAST);
+        wrapper.add(header, BorderLayout.NORTH);
+
+        JPanel center = new JPanel(new GridLayout(2, 1, 0, 14));
+        center.setOpaque(false);
+
+        JScrollPane jobsScroll = UiTheme.styleScrollPane(new JScrollPane(jobsTable));
+        jobsScroll.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(UiTheme.LINE, 1, true), "Open Positions"));
+        center.add(jobsScroll);
+
+        JScrollPane appScroll = UiTheme.styleScrollPane(new JScrollPane(applicationsTable));
+        appScroll.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(UiTheme.LINE, 1, true), "My Applications"));
+        center.add(appScroll);
+
+        wrapper.add(center, BorderLayout.CENTER);
+        return wrapper;
     }
 
-    private JPanel buildProfilePanel() {
-        JPanel profilePanel = new JPanel(new GridBagLayout());
-        profilePanel.setBorder(BorderFactory.createTitledBorder("Student Profile"));
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(6, 6, 6, 6);
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.anchor = GridBagConstraints.NORTHWEST;
-
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        profilePanel.add(new JLabel("Name"), constraints);
-        constraints.gridx = 1;
-        profilePanel.add(nameField, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        profilePanel.add(new JLabel("Student Number"), constraints);
-        constraints.gridx = 1;
-        profilePanel.add(studentNumberField, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        profilePanel.add(new JLabel("Major"), constraints);
-        constraints.gridx = 1;
-        profilePanel.add(majorField, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        profilePanel.add(new JLabel("Grade"), constraints);
-        constraints.gridx = 1;
-        profilePanel.add(gradeField, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        profilePanel.add(new JLabel("Skill Tags"), constraints);
-        constraints.gridx = 1;
-        profilePanel.add(skillTagsField, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 5;
-        profilePanel.add(new JLabel("CV"), constraints);
-        constraints.gridx = 1;
-        profilePanel.add(cvPathLabel, constraints);
-
-        JButton chooseCvButton = new JButton("Choose PDF CV");
-        chooseCvButton.addActionListener(event -> chooseCvFile());
-        constraints.gridx = 1;
-        constraints.gridy = 6;
-        profilePanel.add(chooseCvButton, constraints);
-
-        JButton saveProfileButton = new JButton("Create / Update Profile");
-        saveProfileButton.addActionListener(event -> saveProfile());
-        constraints.gridx = 1;
-        constraints.gridy = 7;
-        profilePanel.add(saveProfileButton, constraints);
-
-        return profilePanel;
+    private JLabel fieldLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        label.setForeground(UiTheme.TEXT);
+        return label;
     }
 
-    private JPanel buildJobsPanel() {
-        JPanel jobsPanel = new JPanel(new BorderLayout(12, 12));
-        jobsPanel.setBorder(BorderFactory.createTitledBorder("Jobs and Applications"));
-
-        jobsPanel.add(new JScrollPane(jobsTable), BorderLayout.CENTER);
-
-        JTable applicationsTable = new JTable(applicationsModel);
-        JScrollPane applicationsScrollPane = new JScrollPane(applicationsTable);
-        applicationsScrollPane.setBorder(BorderFactory.createTitledBorder("My Applications"));
-        jobsPanel.add(applicationsScrollPane, BorderLayout.SOUTH);
-        return jobsPanel;
+    private JPanel fieldBlock(String text, JComponent component) {
+        JPanel block = new JPanel(new BorderLayout(0, 8));
+        block.setOpaque(false);
+        block.add(fieldLabel(text), BorderLayout.NORTH);
+        block.add(component, BorderLayout.CENTER);
+        return block;
     }
 
     private void refreshData() {
@@ -203,10 +330,13 @@ public class StudentDashboardPanel extends JPanel {
             updateProfileForm();
 
             List<Job> jobs = jobController.getOpenJobs();
+            openJobsCard.setValue(String.valueOf(jobs.size()));
             Map<String, String> jobCourses = new HashMap<>();
             jobsModel.setRowCount(0);
             for (Job job : jobs) {
-                String missingSkills = currentStudent == null ? "-" : String.join(", ", studentController.getMissingSkills(currentStudent.getId(), job));
+                String missingSkills = currentStudent == null
+                        ? "-"
+                        : String.join(", ", studentController.getMissingSkills(currentStudent.getId(), job));
                 jobsModel.addRow(new Object[]{
                         job.getId(),
                         valueOrPlaceholder(job.getCourseName()),
@@ -222,6 +352,7 @@ public class StudentDashboardPanel extends JPanel {
             applicationsModel.setRowCount(0);
             if (currentStudent != null) {
                 List<Application> applications = applicationController.getApplicationsForStudent(currentStudent.getId());
+                applicationsCard.setValue(String.valueOf(applications.size()));
                 for (Application application : applications) {
                     applicationsModel.addRow(new Object[]{
                             application.getId(),
@@ -230,15 +361,19 @@ public class StudentDashboardPanel extends JPanel {
                             application.getStatus().name()
                     });
                 }
+            } else {
+                applicationsCard.setValue("0");
             }
         } catch (ValidationException | DataAccessException | BusinessException exception) {
-            JOptionPane.showMessageDialog(this, exception.getMessage(), "Refresh Failed", JOptionPane.ERROR_MESSAGE);
+            UiTheme.showError(this, "Refresh Failed", exception.getMessage());
         }
     }
 
     private void updateProfileForm() {
         if (currentStudent == null) {
             profileStatusLabel.setText("Profile status: not created yet.");
+            profileStatusLabel.setForeground(UiTheme.WARNING);
+            profileCard.setValue("Pending");
             nameField.setText("");
             studentNumberField.setText("");
             majorField.setText("");
@@ -251,6 +386,8 @@ public class StudentDashboardPanel extends JPanel {
         }
 
         profileStatusLabel.setText("Profile status: created. You can edit and save again.");
+        profileStatusLabel.setForeground(UiTheme.SUCCESS);
+        profileCard.setValue("Ready");
         nameField.setText(valueOrEmpty(currentStudent.getName()));
         studentNumberField.setText(valueOrEmpty(currentStudent.getStudentNumber()));
         majorField.setText(valueOrEmpty(currentStudent.getMajor()));
@@ -288,32 +425,32 @@ public class StudentDashboardPanel extends JPanel {
                     selectedCvSourceFile
             );
             selectedCvSourceFile = null;
-            JOptionPane.showMessageDialog(this, "Profile saved successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            UiTheme.showInfo(this, "Success", "Profile saved successfully.");
             refreshData();
         } catch (ValidationException | BusinessException | DataAccessException exception) {
-            JOptionPane.showMessageDialog(this, exception.getMessage(), "Profile Save Failed", JOptionPane.ERROR_MESSAGE);
+            UiTheme.showError(this, "Profile Save Failed", exception.getMessage());
         }
     }
 
     private void submitSelectedJob() {
         if (currentStudent == null) {
-            JOptionPane.showMessageDialog(this, "Please create your profile before applying.", "Profile Required", JOptionPane.WARNING_MESSAGE);
+            UiTheme.showWarning(this, "Profile Required", "Please create your profile before applying.");
             return;
         }
 
         int selectedRow = jobsTable.getSelectedRow();
         if (selectedRow < 0) {
-            JOptionPane.showMessageDialog(this, "Please select a job first.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            UiTheme.showWarning(this, "No Selection", "Please select a job first.");
             return;
         }
 
         String jobId = jobsModel.getValueAt(selectedRow, 0).toString();
         try {
             applicationController.submitApplication(currentStudent.getId(), jobId);
-            JOptionPane.showMessageDialog(this, "Application submitted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            UiTheme.showInfo(this, "Success", "Application submitted successfully.");
             refreshData();
         } catch (ValidationException | BusinessException | DataAccessException exception) {
-            JOptionPane.showMessageDialog(this, exception.getMessage(), "Submission Failed", JOptionPane.ERROR_MESSAGE);
+            UiTheme.showError(this, "Submission Failed", exception.getMessage());
         }
     }
 
@@ -326,7 +463,7 @@ public class StudentDashboardPanel extends JPanel {
     }
 
     private String valueOrPlaceholder(String value) {
-        return value == null || value.isBlank() ? "[???]" : value;
+        return value == null || value.isBlank() ? "-" : value;
     }
 
     private String valueOrEmpty(String value) {
