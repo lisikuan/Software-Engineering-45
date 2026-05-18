@@ -220,7 +220,7 @@ public class AdminReviewPanel extends JPanel {
 
         JSplitPane upper = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildApplicationsPanel(), buildRightRail());
         upper.setResizeWeight(0.62);
-        upper.setBorder(BorderFactory.createEmptyBorder());
+        UiTheme.styleSplitPane(upper);
 
         body.add(upper, BorderLayout.CENTER);
         body.add(buildWorkloadPanel(), BorderLayout.SOUTH);
@@ -430,7 +430,7 @@ public class AdminReviewPanel extends JPanel {
         header.add(refreshButton, BorderLayout.EAST);
 
         panel.add(header, BorderLayout.NORTH);
-        panel.add(UiTheme.styleScrollPane(new JScrollPane(jobsTable)), BorderLayout.CENTER);
+        panel.add(buildTableModule("Published Positions", "Current modules and staffing states", jobsTable), BorderLayout.CENTER);
         return panel;
     }
 
@@ -495,7 +495,7 @@ public class AdminReviewPanel extends JPanel {
         JLabel hint = UiTheme.mutedLabel("Approved jobs and weekly hours overview");
         header.add(hint, BorderLayout.EAST);
         panel.add(header, BorderLayout.NORTH);
-        panel.add(UiTheme.styleScrollPane(new JScrollPane(workloadTable)), BorderLayout.CENTER);
+        panel.add(buildTableModule("TA Workload", "Use this overview before rebalancing staffing", workloadTable), BorderLayout.CENTER);
         return panel;
     }
 
@@ -504,6 +504,22 @@ public class AdminReviewPanel extends JPanel {
         label.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
         label.setForeground(UiTheme.TEXT);
         return label;
+    }
+
+    private JPanel buildTableModule(String title, String subtitle, JTable table) {
+        JPanel panel = new JPanel(new BorderLayout(0, 10));
+        panel.setOpaque(false);
+
+        JPanel top = new JPanel();
+        top.setOpaque(false);
+        top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
+        top.add(UiTheme.sectionTitle(title));
+        top.add(Box.createVerticalStrut(4));
+        top.add(UiTheme.mutedLabel(subtitle));
+
+        panel.add(top, BorderLayout.NORTH);
+        panel.add(UiTheme.styleScrollPane(new JScrollPane(table)), BorderLayout.CENTER);
+        return panel;
     }
 
     private void refreshData() {

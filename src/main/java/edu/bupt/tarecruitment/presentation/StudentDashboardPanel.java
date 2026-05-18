@@ -17,16 +17,17 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -36,6 +37,7 @@ import java.awt.Insets;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -165,9 +167,14 @@ public class StudentDashboardPanel extends JPanel {
     }
 
     private JSplitPane buildDashboardView() {
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildProfileCard(), buildJobsCard());
-        splitPane.setResizeWeight(0.35);
-        splitPane.setBorder(BorderFactory.createEmptyBorder());
+        JScrollPane profileScroll = new JScrollPane(buildProfileCard());
+        profileScroll.setBorder(BorderFactory.createEmptyBorder());
+        profileScroll.getViewport().setBackground(UiTheme.PAGE_BG);
+        profileScroll.getVerticalScrollBar().setUnitIncrement(12);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, profileScroll, buildJobsCard());
+        splitPane.setResizeWeight(0.40);
+        UiTheme.styleSplitPane(splitPane);
         return splitPane;
     }
 
@@ -181,7 +188,7 @@ public class StudentDashboardPanel extends JPanel {
     private JPanel buildProfileOnlyView() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(false);
-        JScrollPane scrollPane = new JScrollPane(buildProfileCard());
+        JScrollPane scrollPane = new JScrollPane(buildProfilePageCard());
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.getViewport().setBackground(UiTheme.PAGE_BG);
         scrollPane.getVerticalScrollBar().setUnitIncrement(12);
@@ -232,29 +239,76 @@ public class StudentDashboardPanel extends JPanel {
         JPanel form = new JPanel();
         form.setOpaque(false);
         form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
-        form.add(fieldBlock("Name", nameField));
-        form.add(Box.createVerticalStrut(12));
-        form.add(fieldBlock("Student Number", studentNumberField));
-        form.add(Box.createVerticalStrut(12));
-        form.add(fieldBlock("Major", majorField));
-        form.add(Box.createVerticalStrut(12));
-        form.add(fieldBlock("Grade", gradeField));
-        form.add(Box.createVerticalStrut(12));
-        form.add(fieldBlock("Skill Tags", skillTagsField));
-        form.add(Box.createVerticalStrut(12));
-        form.add(fieldBlock("CV", buildCvInfoPanel()));
-        form.add(Box.createVerticalStrut(12));
+        form.add(compactFieldBlock("Name", nameField));
+        form.add(Box.createVerticalStrut(10));
+        form.add(compactFieldBlock("Student Number", studentNumberField));
+        form.add(Box.createVerticalStrut(10));
+        form.add(compactFieldBlock("Major", majorField));
+        form.add(Box.createVerticalStrut(10));
+        form.add(compactFieldBlock("Grade", gradeField));
+        form.add(Box.createVerticalStrut(10));
+        form.add(compactFieldBlock("Skill Tags", skillTagsField));
+        form.add(Box.createVerticalStrut(10));
+        form.add(compactFieldBlock("CV", buildCvInfoPanel()));
+        form.add(Box.createVerticalStrut(10));
         JButton chooseCvButton = new JButton("Choose PDF CV");
         UiTheme.styleSecondaryButton(chooseCvButton);
         chooseCvButton.addActionListener(event -> chooseCvFile());
         form.add(chooseCvButton);
-        form.add(Box.createVerticalStrut(12));
+        form.add(Box.createVerticalStrut(10));
         JButton saveProfileButton = new JButton("Create / Update Profile");
         UiTheme.stylePrimaryButton(saveProfileButton);
         saveProfileButton.addActionListener(event -> saveProfile());
         form.add(saveProfileButton);
 
         body.add(form, BorderLayout.CENTER);
+        wrapper.add(body, BorderLayout.CENTER);
+        return wrapper;
+    }
+
+    private JPanel buildProfilePageCard() {
+        JPanel wrapper = new JPanel(new BorderLayout(0, 14));
+        UiTheme.styleSection(wrapper);
+
+        JPanel header = new JPanel(new BorderLayout());
+        header.setOpaque(false);
+        header.add(UiTheme.sectionTitle("Student Profile"), BorderLayout.WEST);
+        header.add(UiTheme.badge("TA"), BorderLayout.EAST);
+        wrapper.add(header, BorderLayout.NORTH);
+
+        JPanel body = new JPanel(new BorderLayout(0, 12));
+        body.setOpaque(false);
+        profileStatusLabel.setFont(UiTheme.BODY_FONT);
+        body.add(profileStatusLabel, BorderLayout.NORTH);
+
+        JPanel grid = new JPanel(new GridLayout(0, 2, 14, 12));
+        grid.setOpaque(false);
+        grid.add(fieldBlock("Name", nameField));
+        grid.add(fieldBlock("Student Number", studentNumberField));
+        grid.add(fieldBlock("Major", majorField));
+        grid.add(fieldBlock("Grade", gradeField));
+        body.add(grid, BorderLayout.CENTER);
+
+        JPanel bottom = new JPanel();
+        bottom.setOpaque(false);
+        bottom.setLayout(new BoxLayout(bottom, BoxLayout.Y_AXIS));
+        bottom.add(fieldBlock("Skill Tags", skillTagsField));
+        bottom.add(Box.createVerticalStrut(12));
+        bottom.add(fieldBlock("CV", buildCvInfoPanel()));
+        bottom.add(Box.createVerticalStrut(12));
+
+        JButton chooseCvButton = new JButton("Choose PDF CV");
+        UiTheme.styleSecondaryButton(chooseCvButton);
+        chooseCvButton.addActionListener(event -> chooseCvFile());
+        bottom.add(chooseCvButton);
+        bottom.add(Box.createVerticalStrut(12));
+
+        JButton saveProfileButton = new JButton("Create / Update Profile");
+        UiTheme.stylePrimaryButton(saveProfileButton);
+        saveProfileButton.addActionListener(event -> saveProfile());
+        bottom.add(saveProfileButton);
+
+        body.add(bottom, BorderLayout.SOUTH);
         wrapper.add(body, BorderLayout.CENTER);
         return wrapper;
     }
@@ -294,16 +348,8 @@ public class StudentDashboardPanel extends JPanel {
 
         JPanel center = new JPanel(new GridLayout(2, 1, 0, 14));
         center.setOpaque(false);
-
-        JScrollPane jobsScroll = UiTheme.styleScrollPane(new JScrollPane(jobsTable));
-        jobsScroll.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(UiTheme.LINE, 1, true), "Open Positions"));
-        center.add(jobsScroll);
-
-        JScrollPane appScroll = UiTheme.styleScrollPane(new JScrollPane(applicationsTable));
-        appScroll.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(UiTheme.LINE, 1, true), "My Applications"));
-        center.add(appScroll);
+        center.add(buildTableSection("Open Positions", "Available roles aligned to your profile", jobsTable));
+        center.add(buildTableSection("My Applications", "Track the latest review results", applicationsTable));
 
         wrapper.add(center, BorderLayout.CENTER);
         return wrapper;
@@ -322,6 +368,35 @@ public class StudentDashboardPanel extends JPanel {
         block.add(fieldLabel(text), BorderLayout.NORTH);
         block.add(component, BorderLayout.CENTER);
         return block;
+    }
+
+    private JPanel compactFieldBlock(String text, JComponent component) {
+        JPanel block = new JPanel(new BorderLayout(0, 6));
+        block.setOpaque(false);
+        block.add(fieldLabel(text), BorderLayout.NORTH);
+        block.add(component, BorderLayout.CENTER);
+        return block;
+    }
+
+    private JPanel buildTableSection(String title, String subtitle, JTable table) {
+        JPanel section = new JPanel(new BorderLayout(0, 10));
+        section.setOpaque(false);
+        section.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(UiTheme.LINE, 1, true),
+                BorderFactory.createEmptyBorder(12, 12, 12, 12)
+        ));
+
+        JPanel top = new JPanel();
+        top.setOpaque(false);
+        top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
+        top.add(UiTheme.sectionTitle(title));
+        top.add(Box.createVerticalStrut(4));
+        top.add(UiTheme.mutedLabel(subtitle));
+
+        JScrollPane scrollPane = UiTheme.styleScrollPane(new JScrollPane(table));
+        section.add(top, BorderLayout.NORTH);
+        section.add(scrollPane, BorderLayout.CENTER);
+        return section;
     }
 
     private void refreshData() {
@@ -404,9 +479,17 @@ public class StudentDashboardPanel extends JPanel {
 
     private void chooseCvFile() {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setLocale(Locale.ENGLISH);
+        fileChooser.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         fileChooser.setDialogTitle("Select PDF CV");
+        fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        fileChooser.setApproveButtonText("Open");
+        fileChooser.setApproveButtonToolTipText("Open selected PDF");
+        fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setFileFilter(new FileNameExtensionFilter("PDF Files", "pdf"));
-        int result = fileChooser.showOpenDialog(this);
+        UiTheme.normalizeChooserTree(fileChooser);
+        SwingUtilities.updateComponentTreeUI(fileChooser);
+        int result = fileChooser.showDialog(this, "Open");
         if (result == JFileChooser.APPROVE_OPTION) {
             selectedCvSourceFile = fileChooser.getSelectedFile().toPath();
             cvPathLabel.setText(selectedCvSourceFile.getFileName().toString());

@@ -8,10 +8,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
@@ -19,6 +21,7 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Container;
 
 final class UiTheme {
     static final Color PAGE_BG = new Color(244, 247, 251);
@@ -51,6 +54,40 @@ final class UiTheme {
         UIManager.put("PasswordField.font", BODY_FONT);
         UIManager.put("ComboBox.font", BODY_FONT);
         UIManager.put("Table.font", BODY_FONT);
+        UIManager.put("OptionPane.okButtonText", "OK");
+        UIManager.put("OptionPane.cancelButtonText", "Cancel");
+        UIManager.put("FileChooser.openDialogTitleText", "Select PDF CV");
+        UIManager.put("FileChooser.openButtonText", "Open");
+        UIManager.put("FileChooser.cancelButtonText", "Cancel");
+        UIManager.put("FileChooser.saveButtonText", "Save");
+        UIManager.put("FileChooser.lookInLabelText", "Look in:");
+        UIManager.put("FileChooser.saveInLabelText", "Save in:");
+        UIManager.put("FileChooser.fileNameLabelText", "File name:");
+        UIManager.put("FileChooser.filesOfTypeLabelText", "Files of type:");
+        UIManager.put("FileChooser.folderNameLabelText", "Folder name:");
+        UIManager.put("FileChooser.acceptAllFileFilterText", "All Files");
+        UIManager.put("FileChooser.upFolderToolTipText", "Up One Level");
+        UIManager.put("FileChooser.homeFolderToolTipText", "Home");
+        UIManager.put("FileChooser.newFolderToolTipText", "New Folder");
+        UIManager.put("FileChooser.listViewButtonToolTipText", "List");
+        UIManager.put("FileChooser.detailsViewButtonToolTipText", "Details");
+        UIManager.put("FileChooser.fileNameHeaderText", "Name");
+        UIManager.put("FileChooser.fileSizeHeaderText", "Size");
+        UIManager.put("FileChooser.fileTypeHeaderText", "Type");
+        UIManager.put("FileChooser.fileDateHeaderText", "Modified");
+    }
+
+    static void normalizeChooserTree(Component component) {
+        if (component == null) {
+            return;
+        }
+        component.setFont(BODY_FONT);
+        if (component instanceof Container container) {
+            for (Component child : container.getComponents()) {
+                normalizeChooserTree(child);
+            }
+        }
+        SwingUtilities.updateComponentTreeUI(component);
     }
 
     static Border cardBorder() {
@@ -195,7 +232,14 @@ final class UiTheme {
     static JScrollPane styleScrollPane(JScrollPane scrollPane) {
         scrollPane.setBorder(BorderFactory.createLineBorder(LINE, 1, true));
         scrollPane.getViewport().setBackground(SURFACE);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(12);
         return scrollPane;
+    }
+
+    static void styleSplitPane(JSplitPane splitPane) {
+        splitPane.setBorder(BorderFactory.createEmptyBorder());
+        splitPane.setDividerSize(10);
+        splitPane.setOpaque(false);
     }
 
     static void styleFlatLabel(JLabel label) {
