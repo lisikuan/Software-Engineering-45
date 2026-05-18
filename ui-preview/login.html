@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<<<<<<< Updated upstream
-    <title>MO/Admin Login</title>
-=======
     <title>TA Recruitment Login</title>
->>>>>>> Stashed changes
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
@@ -22,27 +18,16 @@
                 </div>
             </div>
             <h1>Welcome back</h1>
-<<<<<<< Updated upstream
-            <p>Review applications, publish module positions, and keep TA workload balanced from one clean workspace.</p>
-=======
             <p>Manage applications, publish positions, and keep module staffing balanced in one workspace.</p>
->>>>>>> Stashed changes
         </div>
 
         <div class="panel-body">
             <div class="page-heading">
                 <div>
-<<<<<<< Updated upstream
-                    <h1>MO / Admin Login</h1>
-                    <p>Use your role account to continue.</p>
-                </div>
-                <span class="status-chip">Prototype</span>
-=======
                     <h1>TA Recruitment Login</h1>
                     <p>Sign in with your current system role.</p>
                 </div>
                 <span class="status-chip">v3.0 UI</span>
->>>>>>> Stashed changes
             </div>
 
             <form action="/login" method="post" class="form-grid">
@@ -50,12 +35,7 @@
                     <span>Select Role</span>
                     <div class="role-options">
                         <label><input type="radio" name="role" value="TA"/> TA</label>
-<<<<<<< Updated upstream
-                        <label><input type="radio" name="role" value="MO" checked="checked"/> MO</label>
-                        <label><input type="radio" name="role" value="ADMIN"/> Admin</label>
-=======
                         <label><input type="radio" name="role" value="MO" checked="checked"/> Module Organiser</label>
->>>>>>> Stashed changes
                     </div>
                 </label>
 
@@ -79,11 +59,7 @@
                 </div>
             </form>
 
-<<<<<<< Updated upstream
-            <div class="toolbar" style="margin-top: 24px; margin-bottom: 0;">
-=======
             <div class="button-row" style="margin-top: 24px;">
->>>>>>> Stashed changes
                 <a class="secondary-button" href="job-posting.jsp">Job Posting</a>
                 <a class="secondary-button" href="review-panel.jsp">Review Panel</a>
                 <a class="secondary-button" href="workload-monitor.jsp">Workload Monitor</a>
