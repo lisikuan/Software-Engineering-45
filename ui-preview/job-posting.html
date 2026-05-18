@@ -17,28 +17,17 @@
             </div>
         </div>
         <nav class="side-nav">
-<<<<<<< Updated upstream
-            <a href="login.jsp"><span class="nav-icon">01</span> Login</a>
-            <a href="review-panel.jsp"><span class="nav-icon">02</span> Applications</a>
-            <a href="job-posting.jsp" class="current"><span class="nav-icon">03</span> Modules</a>
-            <a href="workload-monitor.jsp"><span class="nav-icon">04</span> Workload</a>
-=======
             <a href="login.jsp"><span class="nav-index">01</span> Login</a>
             <a href="review-panel.jsp"><span class="nav-index">02</span> Applications</a>
             <a href="job-posting.jsp" class="current"><span class="nav-index">03</span> Modules</a>
             <a href="workload-monitor.jsp"><span class="nav-index">04</span> Workload</a>
->>>>>>> Stashed changes
         </nav>
         <div class="sidebar-footer">TA Recruitment System</div>
     </aside>
 
     <div class="main-shell">
         <header class="topbar">
-<<<<<<< Updated upstream
-            <div class="bell">N</div>
-=======
             <div class="topbar-icon">N</div>
->>>>>>> Stashed changes
             <div class="user-pill">
                 <div>
                     <p class="user-name">Dr. Sarah Jenkins</p>
@@ -192,11 +181,7 @@
                             </tr>
                             <tr>
                                 <td>JOB-2026-002</td>
-<<<<<<< Updated upstream
-                                <td><span class="entity-title">Backend API</span><span class="job-chip">Java</span><span class="job-chip">JSON</span></td>
-=======
                                 <td><span class="entity-title">Backend API</span><span class="job-chip">Java</span><span class="job-chip">SQL</span></td>
->>>>>>> Stashed changes
                                 <td><span class="status-chip pending">Draft</span></td>
                             </tr>
                         </table>
