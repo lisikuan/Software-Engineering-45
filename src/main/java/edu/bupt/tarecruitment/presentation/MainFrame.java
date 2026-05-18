@@ -53,9 +53,11 @@ public class MainFrame extends JFrame {
     }
 
     private void initializeUi() {
+        UiTheme.installDefaults();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 780);
         setLocationRelativeTo(null);
+        contentPanel.setBackground(UiTheme.PAGE_BG);
         setContentPane(contentPanel);
         showLoginView();
     }
@@ -87,6 +89,7 @@ public class MainFrame extends JFrame {
                             studentController,
                             jobController,
                             applicationController,
+                            aiController,
                             this::showLoginView
                     ),
                     MO_VIEW

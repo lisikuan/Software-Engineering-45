@@ -17,28 +17,17 @@
             </div>
         </div>
         <nav class="side-nav">
-<<<<<<< Updated upstream
-            <a href="login.jsp"><span class="nav-icon">01</span> Login</a>
-            <a href="review-panel.jsp" class="current"><span class="nav-icon">02</span> Applications</a>
-            <a href="job-posting.jsp"><span class="nav-icon">03</span> Modules</a>
-            <a href="workload-monitor.jsp"><span class="nav-icon">04</span> Workload</a>
-=======
             <a href="login.jsp"><span class="nav-index">01</span> Login</a>
             <a href="review-panel.jsp" class="current"><span class="nav-index">02</span> Applications</a>
             <a href="job-posting.jsp"><span class="nav-index">03</span> Modules</a>
             <a href="workload-monitor.jsp"><span class="nav-index">04</span> Workload</a>
->>>>>>> Stashed changes
         </nav>
         <div class="sidebar-footer">TA Recruitment System</div>
     </aside>
 
     <div class="main-shell">
         <header class="topbar">
-<<<<<<< Updated upstream
-            <div class="bell">N</div>
-=======
             <div class="topbar-icon">N</div>
->>>>>>> Stashed changes
             <div class="user-pill">
                 <div>
                     <p class="user-name">Dr. Sarah Jenkins</p>
@@ -86,11 +75,7 @@
                             <th>Applicant ID</th>
                             <th>Applicant Info</th>
                             <th>Target Module</th>
-<<<<<<< Updated upstream
-                            <th>GPA</th>
-=======
                             <th>Match</th>
->>>>>>> Stashed changes
                             <th>Status</th>
                             <th>Applied On</th>
                             <th>Actions</th>
@@ -98,70 +83,23 @@
                         <tr>
                             <td><input type="checkbox"/></td>
                             <td>APP-2026-001</td>
-<<<<<<< Updated upstream
-                            <td><span class="entity-title">Alice Zhang</span><span class="entity-subtitle">student0@uni.edu - Year 1</span></td>
-                            <td>CS101</td>
-                            <td>2.50</td>
-                            <td><span class="status-chip pending">Pending</span></td>
-=======
-                            <td><span class="entity-title">Tom</span><span class="entity-subtitle">TA-014 · Java, SQL</span></td>
+                            <td><span class="entity-title">Tom</span><span class="entity-subtitle">TA-014 - Java, SQL</span></td>
                             <td>CS101</td>
                             <td>87%</td>
                             <td><span class="status-chip pending">Submitted</span></td>
->>>>>>> Stashed changes
                             <td>Oct 20, 2026</td>
                             <td class="action-cell"><button type="button" class="link-action">Review</button><span>...</span></td>
                         </tr>
                         <tr>
                             <td><input type="checkbox"/></td>
                             <td>APP-2026-002</td>
-<<<<<<< Updated upstream
-                            <td><span class="entity-title">Bob Smith</span><span class="entity-subtitle">student1@uni.edu - Year 2</span></td>
-                            <td>CS204</td>
-                            <td>2.60</td>
-                            <td><span class="status-chip reviewing">Reviewing</span></td>
-                            <td>Oct 19, 2026</td>
-                            <td class="action-cell"><button type="button" class="link-action">Review</button><span>...</span></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>APP-2026-003</td>
-                            <td><span class="entity-title">Catherine Doe</span><span class="entity-subtitle">student2@uni.edu - Year 3</span></td>
-                            <td>CS310</td>
-                            <td>2.70</td>
-                            <td><span class="status-chip interviewed">Interviewed</span></td>
-                            <td>Oct 18, 2026</td>
-                            <td class="action-cell"><button type="button" class="link-action">Review</button><span>...</span></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>APP-2026-004</td>
-                            <td><span class="entity-title">David Wilson</span><span class="entity-subtitle">student3@uni.edu - Year 4</span></td>
-                            <td>MATH201</td>
-                            <td>2.80</td>
-                            <td><span class="status-chip accepted">Accepted</span></td>
-                            <td>Oct 17, 2026</td>
-                            <td class="action-cell"><button type="button" class="link-action">Review</button><span>...</span></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>APP-2026-005</td>
-                            <td><span class="entity-title">Emma Watson</span><span class="entity-subtitle">student4@uni.edu - Year 1</span></td>
-                            <td>CS101</td>
-                            <td>2.90</td>
-                            <td><span class="status-chip rejected">Rejected</span></td>
-                            <td>Oct 16, 2026</td>
-                            <td class="action-cell"><button type="button" class="link-action">Review</button><span>...</span></td>
-                        </tr>
-=======
-                            <td><span class="entity-title">Alice</span><span class="entity-subtitle">TA-023 · Python, mentoring</span></td>
+                            <td><span class="entity-title">Alice</span><span class="entity-subtitle">TA-023 - Python, mentoring</span></td>
                             <td>CS204</td>
                             <td>79%</td>
                             <td><span class="status-chip interviewed">Shortlisted</span></td>
                             <td>Oct 19, 2026</td>
                             <td class="action-cell"><button type="button" class="link-action">Review</button><span>...</span></td>
                         </tr>
->>>>>>> Stashed changes
                     </table>
                 </div>
             </section>
@@ -175,14 +113,9 @@
                     <form action="/reviewApplication" method="post" class="form-grid">
                         <label>
                             <span>Application ID</span>
-<<<<<<< Updated upstream
-                            <input name="applicationId" placeholder="APP-2026-001"/>
-                        </label>
-=======
                             <input name="applicationId" placeholder="APP-001"/>
                         </label>
 
->>>>>>> Stashed changes
                         <label>
                             <span>Decision</span>
                             <select name="decision">
@@ -191,18 +124,12 @@
                                 <option value="hold">Hold</option>
                             </select>
                         </label>
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
                         <label class="full-width">
                             <span>Comment</span>
                             <textarea name="comment" rows="4" placeholder="Add feedback for the applicant or internal notes."></textarea>
                         </label>
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
                         <div class="button-row full-width">
                             <button type="button" class="secondary-button">View CV</button>
                             <button type="submit" class="primary-button">Save Review</button>
