@@ -25,8 +25,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -66,8 +68,8 @@ public class AdminReviewPanel extends JPanel {
 
     private final JLabel studentNameLabel;
     private final JLabel studentNumberLabel;
-    private final JLabel studentSkillsLabel;
-    private final JLabel studentCvLabel;
+    private final JLabel studentCvFileLabel;
+    private final JPanel studentSkillTagsPanel;
 
     private final DashboardShell.StatCard totalApplicationsCard;
     private final DashboardShell.StatCard pendingReviewCard;
@@ -139,8 +141,8 @@ public class AdminReviewPanel extends JPanel {
         this.skillFilterField = new JTextField(18);
         this.studentNameLabel = new JLabel("-");
         this.studentNumberLabel = new JLabel("-");
-        this.studentSkillsLabel = new JLabel("-");
-        this.studentCvLabel = new JLabel("-");
+        this.studentCvFileLabel = new JLabel("-");
+        this.studentSkillTagsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
         this.totalApplicationsCard = DashboardShell.statCard("Total Applications", "0");
         this.pendingReviewCard = DashboardShell.statCard("Pending Review", "0");
         this.activeModulesCard = DashboardShell.statCard("Active Modules", "0");
@@ -163,6 +165,8 @@ public class AdminReviewPanel extends JPanel {
         UiTheme.styleField(quotaField);
         UiTheme.styleField(skillFilterField);
         UiTheme.styleTextArea(jobDescriptionArea);
+        studentSkillTagsPanel.setOpaque(false);
+        UiTheme.styleFlatLabel(studentCvFileLabel);
         applicationsTable.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) {
                 loadSelectedApplicationDetails();
@@ -215,15 +219,14 @@ public class AdminReviewPanel extends JPanel {
     }
 
     private JPanel buildApplicationsView() {
-        JPanel body = new JPanel(new BorderLayout(0, 18));
+        JPanel body = new JPanel(new BorderLayout());
         body.setOpaque(false);
 
-        JSplitPane upper = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildApplicationsPanel(), buildRightRail());
-        upper.setResizeWeight(0.62);
+        JSplitPane upper = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildApplicationsPanel(), buildStudentDetailPanel());
+        upper.setResizeWeight(0.72);
         UiTheme.styleSplitPane(upper);
 
         body.add(upper, BorderLayout.CENTER);
-        body.add(buildWorkloadPanel(), BorderLayout.SOUTH);
         return body;
     }
 
@@ -274,10 +277,16 @@ public class AdminReviewPanel extends JPanel {
         JPanel panel = new JPanel(new BorderLayout(0, 14));
         UiTheme.styleSection(panel);
 
-        JPanel header = new JPanel(new BorderLayout());
+        JPanel titleRow = new JPanel(new BorderLayout());
+        titleRow.setOpaque(false);
+        titleRow.add(UiTheme.sectionTitle("Application Management"), BorderLayout.WEST);
+
+        JPanel header = new JPanel();
         header.setOpaque(false);
-        header.add(UiTheme.sectionTitle("Application Management"), BorderLayout.WEST);
-        header.add(buildReviewActions(), BorderLayout.EAST);
+        header.setLayout(new BoxLayout(header, BoxLayout.Y_AXIS));
+        header.add(titleRow);
+        header.add(Box.createVerticalStrut(12));
+        header.add(buildReviewActions());
 
         JPanel filters = new JPanel(new BorderLayout(12, 0));
         filters.setOpaque(false);
@@ -311,7 +320,7 @@ public class AdminReviewPanel extends JPanel {
     }
 
     private JPanel buildReviewActions() {
-        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        JPanel actions = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         actions.setOpaque(false);
 
         JButton approveButton = new JButton("Approve");
@@ -435,54 +444,60 @@ public class AdminReviewPanel extends JPanel {
     }
 
     private JPanel buildStudentDetailPanel() {
-        JPanel panel = new JPanel(new GridBagLayout());
-        UiTheme.styleSection(panel);
+        JPanel card = new JPanel(new BorderLayout(0, 14));
+        UiTheme.styleSection(card);
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(6, 6, 6, 6);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.NORTHWEST;
-        c.weightx = 1.0;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        panel.add(UiTheme.sectionTitle("Selected Student Profile"), c);
+        JPanel header = new JPanel(new BorderLayout());
+        header.setOpaque(false);
+        header.add(UiTheme.sectionTitle("Selected Student Profile"), BorderLayout.WEST);
+        card.add(header, BorderLayout.NORTH);
 
-        c.gridwidth = 1;
-        c.gridy++;
-        panel.add(fieldLabel("Name"), c);
-        c.gridx = 1;
+        JPanel content = new JPanel();
+        content.setOpaque(false);
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+
         UiTheme.styleFlatLabel(studentNameLabel);
-        panel.add(studentNameLabel, c);
-
-        c.gridx = 0;
-        c.gridy++;
-        panel.add(fieldLabel("Student Number"), c);
-        c.gridx = 1;
         UiTheme.styleFlatLabel(studentNumberLabel);
-        panel.add(studentNumberLabel, c);
 
-        c.gridx = 0;
-        c.gridy++;
-        panel.add(fieldLabel("Skill Tags"), c);
-        c.gridx = 1;
-        UiTheme.styleFlatLabel(studentSkillsLabel);
-        panel.add(studentSkillsLabel, c);
+        content.add(detailBlock("Name", buildValuePanel(studentNameLabel, 38)));
+        content.add(Box.createVerticalStrut(8));
+        content.add(detailBlock("Student Number", buildValuePanel(studentNumberLabel, 38)));
+        content.add(Box.createVerticalStrut(8));
 
-        c.gridx = 0;
-        c.gridy++;
-        panel.add(fieldLabel("CV"), c);
-        c.gridx = 1;
-        UiTheme.styleFlatLabel(studentCvLabel);
-        panel.add(studentCvLabel, c);
+        content.add(detailBlock("Skill Tags", buildTagSummaryPanel()));
+        content.add(Box.createVerticalStrut(8));
 
-        c.gridx = 1;
-        c.gridy++;
+        content.add(detailBlock("CV File", buildValuePanel(studentCvFileLabel, 54)));
+        content.add(Box.createVerticalStrut(8));
+
+        JLabel hint = UiTheme.mutedLabel("Open the submitted CV in your PDF viewer.");
+        hint.setAlignmentX(LEFT_ALIGNMENT);
+        content.add(hint);
+        content.add(Box.createVerticalStrut(10));
+
+        JPanel actions = new JPanel(new GridLayout(2, 1, 0, 10));
+        actions.setOpaque(false);
+        actions.setMaximumSize(new Dimension(Integer.MAX_VALUE, 84));
         JButton openCvButton = new JButton("Open CV");
         openCvButton.addActionListener(event -> openSelectedStudentCv());
         UiTheme.styleSecondaryButton(openCvButton);
-        panel.add(openCvButton, c);
-        return panel;
+        JButton clearButton = new JButton("Clear Selection");
+        clearButton.addActionListener(event -> {
+            applicationsTable.clearSelection();
+            clearSelectedStudentDetails();
+        });
+        UiTheme.styleSecondaryButton(clearButton);
+        actions.add(openCvButton);
+        actions.add(clearButton);
+        content.add(actions);
+
+        JScrollPane scrollPane = new JScrollPane(content);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(UiTheme.SURFACE);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(12);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        card.add(scrollPane, BorderLayout.CENTER);
+        return card;
     }
 
     private JPanel buildWorkloadPanel() {
@@ -492,7 +507,7 @@ public class AdminReviewPanel extends JPanel {
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
         header.add(UiTheme.sectionTitle("Workload Monitor"), BorderLayout.WEST);
-        JLabel hint = UiTheme.mutedLabel("Approved jobs and weekly hours overview");
+        JLabel hint = UiTheme.mutedLabel("Compact staffing overview");
         header.add(hint, BorderLayout.EAST);
         panel.add(header, BorderLayout.NORTH);
         panel.add(buildTableModule("TA Workload", "Use this overview before rebalancing staffing", workloadTable), BorderLayout.CENTER);
@@ -504,6 +519,58 @@ public class AdminReviewPanel extends JPanel {
         label.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
         label.setForeground(UiTheme.TEXT);
         return label;
+    }
+
+    private JPanel detailBlock(String title, java.awt.Component component) {
+        JPanel block = new JPanel(new BorderLayout(0, 8));
+        block.setOpaque(false);
+        block.setAlignmentX(LEFT_ALIGNMENT);
+        block.add(fieldLabel(title), BorderLayout.NORTH);
+        block.add(component, BorderLayout.CENTER);
+        block.setMaximumSize(new Dimension(Integer.MAX_VALUE, component.getPreferredSize().height + 28));
+        return block;
+    }
+
+    private JPanel buildValuePanel(JLabel label, int height) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(true);
+        panel.setBackground(UiTheme.SURFACE_ALT);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(UiTheme.LINE_STRONG, 1, true),
+                BorderFactory.createEmptyBorder(8, 10, 8, 10)
+        ));
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        panel.add(label, BorderLayout.CENTER);
+        panel.setPreferredSize(new Dimension(220, height));
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, height));
+        return panel;
+    }
+
+    private JPanel buildTagSummaryPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(true);
+        panel.setBackground(UiTheme.SURFACE_ALT);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(UiTheme.LINE_STRONG, 1, true),
+                BorderFactory.createEmptyBorder(6, 8, 6, 8)
+        ));
+        panel.add(studentSkillTagsPanel, BorderLayout.CENTER);
+        panel.setPreferredSize(new Dimension(220, 72));
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 72));
+        return panel;
+    }
+
+    private JLabel buildTagChip(String text) {
+        JLabel chip = new JLabel(text);
+        chip.setOpaque(true);
+        chip.setBackground(UiTheme.BRAND_SOFT);
+        chip.setForeground(UiTheme.BRAND);
+        chip.setFont(UiTheme.SMALL_FONT);
+        chip.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(191, 219, 254), 1, true),
+                BorderFactory.createEmptyBorder(4, 8, 4, 8)
+        ));
+        return chip;
     }
 
     private JPanel buildTableModule(String title, String subtitle, JTable table) {
@@ -659,10 +726,17 @@ public class AdminReviewPanel extends JPanel {
             selectedStudent = studentController.getStudentById(studentId);
             studentNameLabel.setText(valueOrPlaceholder(selectedStudent.getName()));
             studentNumberLabel.setText(valueOrPlaceholder(selectedStudent.getStudentNumber()));
-            studentSkillsLabel.setText(selectedStudent.getSkillTags().isEmpty()
-                    ? "-"
-                    : selectedStudent.getSkillTags().stream().collect(Collectors.joining(", ")));
-            studentCvLabel.setText(valueOrPlaceholder(selectedStudent.getCvFilePath()));
+            studentSkillTagsPanel.removeAll();
+            if (selectedStudent.getSkillTags().isEmpty()) {
+                studentSkillTagsPanel.add(UiTheme.mutedLabel("-"));
+            } else {
+                for (String tag : selectedStudent.getSkillTags()) {
+                    studentSkillTagsPanel.add(buildTagChip(tag));
+                }
+            }
+            studentCvFileLabel.setText(valueOrPlaceholder(selectedStudent.getCvFilePath()));
+            studentSkillTagsPanel.revalidate();
+            studentSkillTagsPanel.repaint();
         } catch (ValidationException | BusinessException | DataAccessException exception) {
             UiTheme.showError(this, "Load Detail Failed", exception.getMessage());
             clearSelectedStudentDetails();
@@ -707,8 +781,11 @@ public class AdminReviewPanel extends JPanel {
         selectedStudent = null;
         studentNameLabel.setText("-");
         studentNumberLabel.setText("-");
-        studentSkillsLabel.setText("-");
-        studentCvLabel.setText("-");
+        studentCvFileLabel.setText("-");
+        studentSkillTagsPanel.removeAll();
+        studentSkillTagsPanel.add(UiTheme.mutedLabel("-"));
+        studentSkillTagsPanel.revalidate();
+        studentSkillTagsPanel.repaint();
     }
 
     private List<String> parseTags(String rawTags) {
