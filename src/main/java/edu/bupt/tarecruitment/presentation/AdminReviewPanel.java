@@ -104,7 +104,7 @@ public class AdminReviewPanel extends JPanel {
         this.aiController = aiController;
         this.logoutAction = logoutAction;
         this.applicationsModel = new DefaultTableModel(
-                new Object[]{"Application ID", "Student ID", "Student Name", "Course", "Skills", "Status"},
+                new Object[]{"Application ID", "Student ID", "Student Name", "Course", "Skills", "Match Score", "Status"},
                 0
         ) {
             @Override
@@ -616,6 +616,7 @@ public class AdminReviewPanel extends JPanel {
                         student.getName(),
                         valueOrPlaceholder(job.getCourseName()),
                         student.getSkillTags().isEmpty() ? "-" : String.join(", ", student.getSkillTags()),
+                        aiController != null ? String.format("%.0f%%", aiController.match(student, job).getScore() * 100) : "-",
                         application.getStatus().name()
                 });
                 if (application.getStatus() == ApplicationStatus.SUBMITTED || application.getStatus() == ApplicationStatus.REVIEWED) {
