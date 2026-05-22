@@ -1,0 +1,26 @@
+Chuqi Liu Work Log
+
+Project: TA Recruitment System
+
+Role:
+Responsible for UI design, implementation, and interface optimization for MO/TA-related pages. My work focused on the frontend interface layer, while backend logic and data handling were completed by other team members.
+
+Main Contributions:
+
+1. Swing UI Design and Optimization
+Improved the Java Swing runtime interface to make it visually closer to the web UI instead of default desktop forms. Refined key files including LoginPanel.java, StudentDashboardPanel.java, AdminReviewPanel.java, DashboardShell.java, UiTheme.java, and MainFrame.java. Added a unified UI structure with sidebar navigation, top bar, dashboard cards, and consistent button/table styles.
+
+2. MO/Admin Interface Work
+Focused on MO-side workflows, including application review, module/position publishing, and workload monitoring. Optimized the application review page by improving layout proportions, enlarging the student profile/CV area, and reducing duplicated workload information. Reorganized profile displays into a cleaner and more compact format.
+
+3. TA Interface Improvement
+Enhanced TA-side login, dashboard, profile, and application pages. Improved form layouts, navigation consistency, and reduced clipping or truncation issues.
+
+4. UI Fixes and Testing
+Repeatedly optimized interface details during testing, fixing issues such as overlapping text, clipped labels, oversized panels, scrolling problems, and unclear dialog/button text.
+
+5. Team Collaboration
+Maintained compatibility with the existing project structure without modifying teammates’ core business logic. Repeatedly verified that the project compiled correctly after UI updates.
+
+Result:
+My work improved usability, visual consistency, and presentation quality, helping transform the system from a basic prototype into a more structured and demo-ready interface
