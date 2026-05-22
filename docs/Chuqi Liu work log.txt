@@ -1,80 +1,26 @@
 Chuqi Liu Work Log
 
-Project:
-TA Recruitment System
+Project: TA Recruitment System
 
 Role:
-UI design, UI implementation, and interface optimization for MO/TA related pages.
-My work mainly focused on the user interface layer. Core business logic, data persistence,
-and backend execution were completed by other team members. My goal was to make the UI
-clear, usable, visually consistent, and compatible with the existing program structure.
+Responsible for UI design, implementation, and interface optimization for MO/TA-related pages. My work focused on the frontend interface layer, while backend logic and data handling were completed by other team members.
 
-Main Work Completed:
-1. Swing UI Pages
-- Improved the Java Swing runtime UI so that it is visually closer to the web UI rather
-  than looking like the original default desktop forms.
-- Refined the following Swing-side files:
-  - LoginPanel.java
-  - StudentDashboardPanel.java
-  - AdminReviewPanel.java
-  - DashboardShell.java
-  - UiTheme.java
-  - MainFrame.java
-- Added a unified shell structure for Swing pages, including:
-  - sidebar navigation
-  - top bar
-  - dashboard statistics cards
-  - consistent card containers
-  - unified button and table styles
+Main Contributions:
 
-2. MO / Admin UI Work
-- Focused on the MO-side workflow:
-  - application review
-  - module / position publishing
-  - workload monitoring
-- Adjusted the MO application review page to make it more practical for demo and acceptance:
-  - improved layout proportions
-  - enlarged the student profile / CV review area
-  - reduced duplicated workload content in the Applications page
-  - kept Workload as an independent navigation page
-- Reworked the selected student profile panel so that it is more compact and easier to read.
-  Later versions changed it from large text-box style blocks into a cleaner summary card style.
+1. Swing UI Design and Optimization
+Improved the Java Swing runtime interface to make it visually closer to the web UI instead of default desktop forms. Refined key files including LoginPanel.java, StudentDashboardPanel.java, AdminReviewPanel.java, DashboardShell.java, UiTheme.java, and MainFrame.java. Added a unified UI structure with sidebar navigation, top bar, dashboard cards, and consistent button/table styles.
 
-3. TA UI Work
-- Improved the TA-side login, dashboard, profile, and application display areas.
-- Optimized profile information layout and form structure.
-- Improved page navigation and consistency between different TA views.
-- Reduced clipping and truncation issues in profile-related sections.
+2. MO/Admin Interface Work
+Focused on MO-side workflows, including application review, module/position publishing, and workload monitoring. Optimized the application review page by improving layout proportions, enlarging the student profile/CV area, and reducing duplicated workload information. Reorganized profile displays into a cleaner and more compact format.
 
-4. UI Detail Fixes and Polishing
-- Repeatedly checked and optimized UI details during testing.
-- Fixed issues such as:
-  - overlapping text
-  - fields or labels being clipped
-  - unnecessary or repeated sections
-  - overly large panels taking too much space
-  - file chooser / dialog text problems
-  - poor scrolling behavior in narrow panels
-- Improved dialog messages and button text to avoid strange or garbled display.
+3. TA Interface Improvement
+Enhanced TA-side login, dashboard, profile, and application pages. Improved form layouts, navigation consistency, and reduced clipping or truncation issues.
 
-5. Collaboration with Existing Program
-- Kept my work mainly on the interface layer without changing teammates' core business logic.
-- Ensured the updated UI could still run with the existing Java program structure.
-- Verified multiple times that the project could still compile after UI changes.
+4. UI Fixes and Testing
+Repeatedly optimized interface details during testing, fixing issues such as overlapping text, clipped labels, oversized panels, scrolling problems, and unclear dialog/button text.
 
-Technical Understanding Reflected in My Work:
-- The project contains both web-style UI pages and Java Swing runtime pages.
-- Because the two UI layers use different technologies, they cannot directly share the same
-  frontend code, so my work included making them visually and structurally consistent.
-- My UI work was designed to fit the project architecture rather than bypass it.
-
-Personal Contribution Summary:
-- Responsible for MO/Admin-side UI implementation and optimization.
-- Completed and refined the login page, job posting page, application review page,
-  workload monitor page, and related Swing runtime interfaces.
-- Improved usability, layout consistency, and presentation quality for project acceptance.
+5. Team Collaboration
+Maintained compatibility with the existing project structure without modifying teammates’ core business logic. Repeatedly verified that the project compiled correctly after UI updates.
 
 Result:
-My contribution helped turn the interface from a simple prototype into a more structured,
-readable, and presentation-ready UI, while still remaining compatible with the team’s
-existing backend and program logic.
+My work improved usability, visual consistency, and presentation quality, helping transform the system from a basic prototype into a more structured and demo-ready interface
