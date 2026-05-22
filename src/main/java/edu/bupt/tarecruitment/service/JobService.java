@@ -60,6 +60,48 @@ public class JobService {
         return jobRepository.findByPublisherId(publisherId);
     }
 
+    public Job updateOwnJob(
+            String jobId,
+            String courseName,
+            List<String> requiredSkills,
+            int weeklyHours,
+            int quota,
+            String description,
+            String publisherId
+    ) throws ValidationException, BusinessException, DataAccessException {
+        if (jobId == null || jobId.isBlank()) {
+            throw new ValidationException("Job id must not be blank.");
+        }
+        jobValidator.validateJobInput(courseName, requiredSkills, weeklyHours, quota);
+
+        Job existingJob = getJobById(jobId);
+        ensureOwnedByPublisher(existingJob, publisherId);
+
+        Job updatedJob = new Job(
+                existingJob.getId(),
+                courseName + " TA",
+                description == null ? "" : description,
+                courseName,
+                requiredSkills,
+                weeklyHours,
+                quota,
+                existingJob.getStatus(),
+                existingJob.getPublisherId()
+        );
+        return jobRepository.update(updatedJob);
+    }
+
+    public boolean deleteOwnJob(String jobId, String publisherId)
+            throws ValidationException, BusinessException, DataAccessException {
+        if (jobId == null || jobId.isBlank()) {
+            throw new ValidationException("Job id must not be blank.");
+        }
+
+        Job existingJob = getJobById(jobId);
+        ensureOwnedByPublisher(existingJob, publisherId);
+        return jobRepository.deleteById(jobId);
+    }
+
     private String nextJobId() throws DataAccessException {
         int nextNumber = jobRepository.findAll().stream()
                 .map(Job::getId)
@@ -78,6 +120,12 @@ public class JobService {
             return Optional.of(Integer.parseInt(jobId.substring(1)));
         } catch (NumberFormatException exception) {
             return Optional.empty();
+        }
+    }
+
+    private void ensureOwnedByPublisher(Job job, String publisherId) throws BusinessException {
+        if (publisherId == null || publisherId.isBlank() || !publisherId.equals(job.getPublisherId())) {
+            throw new BusinessException("You can only manage jobs published by your own account.");
         }
     }
 }

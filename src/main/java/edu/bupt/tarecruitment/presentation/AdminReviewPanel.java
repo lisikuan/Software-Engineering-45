@@ -25,8 +25,11 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -65,6 +68,7 @@ public class AdminReviewPanel extends JPanel {
     private final JTextField quotaField;
     private final JTextArea jobDescriptionArea;
     private final JTextField skillFilterField;
+    private final JButton jobFormActionButton;
 
     private final JLabel studentNameLabel;
     private final JLabel studentNumberLabel;
@@ -78,6 +82,7 @@ public class AdminReviewPanel extends JPanel {
 
     private Student selectedStudent;
     private String currentView;
+    private boolean editingExistingJob;
 
     public AdminReviewPanel(
             User currentUser,
@@ -139,6 +144,7 @@ public class AdminReviewPanel extends JPanel {
         this.quotaField = new JTextField(18);
         this.jobDescriptionArea = new JTextArea(5, 18);
         this.skillFilterField = new JTextField(18);
+        this.jobFormActionButton = new JButton("Post Job");
         this.studentNameLabel = new JLabel("-");
         this.studentNumberLabel = new JLabel("-");
         this.studentCvFileLabel = new JLabel("-");
@@ -148,6 +154,7 @@ public class AdminReviewPanel extends JPanel {
         this.activeModulesCard = DashboardShell.statCard("Active Modules", "0");
         this.overloadedCard = DashboardShell.statCard("Overloaded", "0");
         this.currentView = VIEW_APPLICATIONS;
+        this.editingExistingJob = false;
         initializeUi();
         refreshData();
     }
@@ -165,6 +172,10 @@ public class AdminReviewPanel extends JPanel {
         UiTheme.styleField(quotaField);
         UiTheme.styleField(skillFilterField);
         UiTheme.styleTextArea(jobDescriptionArea);
+        UiTheme.stylePrimaryButton(jobFormActionButton);
+        jobFormActionButton.addActionListener(event -> submitJobFormAction());
+        installJobFormActionButtonVisibilityUpdates();
+        updateJobFormActionButtonVisibility();
         studentSkillTagsPanel.setOpaque(false);
         UiTheme.styleFlatLabel(studentCvFileLabel);
         applicationsTable.getSelectionModel().addListSelectionListener(event -> {
@@ -418,10 +429,7 @@ public class AdminReviewPanel extends JPanel {
 
         c.gridx = 1;
         c.gridy++;
-        JButton publishButton = new JButton("Post Job");
-        publishButton.addActionListener(event -> publishJob());
-        UiTheme.stylePrimaryButton(publishButton);
-        panel.add(publishButton, c);
+        panel.add(jobFormActionButton, c);
 
         return panel;
     }
@@ -436,7 +444,23 @@ public class AdminReviewPanel extends JPanel {
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(event -> refreshMyJobs());
         UiTheme.styleSecondaryButton(refreshButton);
-        header.add(refreshButton, BorderLayout.EAST);
+
+        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        actions.setOpaque(false);
+        JButton newJobButton = new JButton("New Job");
+        newJobButton.addActionListener(event -> clearJobForm());
+        UiTheme.styleSecondaryButton(newJobButton);
+        JButton loadButton = new JButton("Load Selected");
+        loadButton.addActionListener(event -> loadSelectedJobIntoForm());
+        UiTheme.styleSecondaryButton(loadButton);
+        JButton deleteButton = new JButton("Delete Selected");
+        deleteButton.addActionListener(event -> deleteSelectedJob());
+        UiTheme.styleDangerButton(deleteButton);
+        actions.add(newJobButton);
+        actions.add(loadButton);
+        actions.add(deleteButton);
+        actions.add(refreshButton);
+        header.add(actions, BorderLayout.EAST);
 
         panel.add(header, BorderLayout.NORTH);
         panel.add(buildTableModule("Published Positions", "Current modules and staffing states", jobsTable), BorderLayout.CENTER);
@@ -702,16 +726,161 @@ public class AdminReviewPanel extends JPanel {
                     currentUser.getId()
             );
             UiTheme.showInfo(this, "Success", "Job published successfully.");
-            courseNameField.setText("");
-            requiredSkillsField.setText("");
-            weeklyHoursField.setText("");
-            quotaField.setText("");
-            jobDescriptionArea.setText("");
+            clearJobForm();
             refreshMyJobs();
         } catch (NumberFormatException exception) {
             UiTheme.showError(this, "Publish Failed", "Weekly hours and quota must be valid integers.");
         } catch (ValidationException | DataAccessException exception) {
             UiTheme.showError(this, "Publish Failed", exception.getMessage());
+        }
+    }
+
+    private void submitJobFormAction() {
+        if (editingExistingJob) {
+            updateSelectedJob();
+        } else {
+            publishJob();
+        }
+    }
+
+    private void loadSelectedJobIntoForm() {
+        String jobId = selectedJobId();
+        if (jobId == null) {
+            UiTheme.showWarning(this, "No Selection", "Please select a published job first.");
+            return;
+        }
+
+        try {
+            Job job = jobController.getJobById(jobId);
+            if (!currentUser.getId().equals(job.getPublisherId())) {
+                UiTheme.showWarning(this, "Not Allowed", "You can only edit jobs published by your own account.");
+                return;
+            }
+            editingExistingJob = true;
+            courseNameField.setText(valueOrEmpty(job.getCourseName()));
+            requiredSkillsField.setText(String.join(", ", job.getRequiredSkills()));
+            weeklyHoursField.setText(String.valueOf(job.getWeeklyHours()));
+            quotaField.setText(String.valueOf(job.getQuota()));
+            jobDescriptionArea.setText(valueOrEmpty(job.getDescription()));
+            updateJobFormActionButtonVisibility();
+        } catch (ValidationException | BusinessException | DataAccessException exception) {
+            UiTheme.showError(this, "Load Job Failed", exception.getMessage());
+        }
+    }
+
+    private void updateSelectedJob() {
+        String jobId = selectedJobId();
+        if (jobId == null) {
+            UiTheme.showWarning(this, "No Selection", "Please select a published job first.");
+            return;
+        }
+
+        try {
+            int weeklyHours = Integer.parseInt(weeklyHoursField.getText().trim());
+            int quota = Integer.parseInt(quotaField.getText().trim());
+            jobController.updateOwnJob(
+                    jobId,
+                    courseNameField.getText().trim(),
+                    parseTags(requiredSkillsField.getText()),
+                    weeklyHours,
+                    quota,
+                    jobDescriptionArea.getText().trim(),
+                    currentUser.getId()
+            );
+            UiTheme.showInfo(this, "Success", "Job updated successfully.");
+            editingExistingJob = true;
+            updateJobFormActionButtonVisibility();
+            refreshData();
+        } catch (NumberFormatException exception) {
+            UiTheme.showError(this, "Update Failed", "Weekly hours and quota must be valid integers.");
+        } catch (ValidationException | BusinessException | DataAccessException exception) {
+            UiTheme.showError(this, "Update Failed", exception.getMessage());
+        }
+    }
+
+    private void deleteSelectedJob() {
+        String jobId = selectedJobId();
+        if (jobId == null) {
+            UiTheme.showWarning(this, "No Selection", "Please select a published job first.");
+            return;
+        }
+
+        int choice = JOptionPane.showConfirmDialog(
+                this,
+                "Delete selected job " + jobId + "?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+        );
+        if (choice != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            jobController.deleteOwnJob(jobId, currentUser.getId());
+            UiTheme.showInfo(this, "Success", "Job deleted successfully.");
+            clearJobForm();
+            refreshData();
+        } catch (ValidationException | BusinessException | DataAccessException exception) {
+            UiTheme.showError(this, "Delete Failed", exception.getMessage());
+        }
+    }
+
+    private String selectedJobId() {
+        int selectedRow = jobsTable.getSelectedRow();
+        if (selectedRow < 0) {
+            return null;
+        }
+        int modelRow = jobsTable.convertRowIndexToModel(selectedRow);
+        Object value = jobsModel.getValueAt(modelRow, 0);
+        return value == null ? null : value.toString();
+    }
+
+    private void clearJobForm() {
+        editingExistingJob = false;
+        courseNameField.setText("");
+        requiredSkillsField.setText("");
+        weeklyHoursField.setText("");
+        quotaField.setText("");
+        jobDescriptionArea.setText("");
+        jobsTable.clearSelection();
+        updateJobFormActionButtonVisibility();
+    }
+
+    private void installJobFormActionButtonVisibilityUpdates() {
+        DocumentListener listener = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent event) {
+                updateJobFormActionButtonVisibility();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent event) {
+                updateJobFormActionButtonVisibility();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent event) {
+                updateJobFormActionButtonVisibility();
+            }
+        };
+        courseNameField.getDocument().addDocumentListener(listener);
+        requiredSkillsField.getDocument().addDocumentListener(listener);
+        weeklyHoursField.getDocument().addDocumentListener(listener);
+        quotaField.getDocument().addDocumentListener(listener);
+        jobDescriptionArea.getDocument().addDocumentListener(listener);
+    }
+
+    private void updateJobFormActionButtonVisibility() {
+        boolean completeJobForm = !courseNameField.getText().trim().isEmpty()
+                && !requiredSkillsField.getText().trim().isEmpty()
+                && !weeklyHoursField.getText().trim().isEmpty()
+                && !quotaField.getText().trim().isEmpty()
+                && !jobDescriptionArea.getText().trim().isEmpty();
+        jobFormActionButton.setText(editingExistingJob ? "Update Job" : "Post Job");
+        jobFormActionButton.setVisible(completeJobForm);
+        if (jobFormActionButton.getParent() != null) {
+            jobFormActionButton.getParent().revalidate();
+            jobFormActionButton.getParent().repaint();
         }
     }
 
@@ -799,5 +968,9 @@ public class AdminReviewPanel extends JPanel {
 
     private String valueOrPlaceholder(String value) {
         return value == null || value.isBlank() ? "-" : value;
+    }
+
+    private String valueOrEmpty(String value) {
+        return value == null ? "" : value;
     }
 }
