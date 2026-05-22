@@ -1,0 +1,8 @@
+QM no:
+231222637
+Name:
+Li Sikuan
+Main contribution:
+As team leader and document editor, I established the GitHub repository and unified development & branch rules. I planned Scrum sprints, ran daily standups and tracked all tasks. I organized requirement research and questionnaire analysis, sorted out system design materials, compiled the complete final project report, and coordinated overall final testing to guarantee delivery quality.
+Reflective statement:
+I met difficulties in reasonable task allocation and repeated document revision during the project. I mastered agile Scrum processes and GitHub collaborative workflows. My abilities in project scheduling, team communication and technical writing were significantly enhanced. I also gained a clear understanding of the full software engineering lifecycle from requirement investigation to system deployment and evaluation.
