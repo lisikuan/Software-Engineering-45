@@ -1,0 +1,10 @@
+QM no:231221331
+
+Name: Zhuolun Li李卓伦
+
+Main contribution:
+I was responsible for the controller layer and data access implementation in the TA Recruitment System. My key contributions included implementing repository components such as StudentRepository, JobRepository, ApplicationRepository, and UserRepository for managing CRUD operations. I also developed ValidationUtil to ensure data integrity, created utility classes including DateUtil and FileUtil, and built a custom exception framework with BusinessException, ValidationException, and DataAccessException for robust error handling.
+
+Reflective statement:
+
+This project deepened my understanding of layered architecture and separation of concerns. Working on the controller and DAO layers taught me how to design clean interfaces and handle data flow efficiently. A major challenge was ensuring proper validation without creating tight coupling between layers. I also learned the importance of comprehensive error handling and how custom exceptions improve code maintainability. This experience strengthened my Java programming skills, particularly in collections, file I/O, and design patterns. Overall, this project enhanced my ability to translate requirements into well-structured code.
