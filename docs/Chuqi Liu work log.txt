@@ -10,25 +10,7 @@ and backend execution were completed by other team members. My goal was to make 
 clear, usable, visually consistent, and compatible with the existing program structure.
 
 Main Work Completed:
-
-1. Web UI Pages
-- Implemented and refined the web-side UI pages under the webapp folder.
-- Completed the following key pages:
-  - login.jsp
-  - job-posting.jsp
-  - review-panel.jsp
-  - workload-monitor.jsp
-  - styles.css
-- Unified the page style into a cleaner management-system layout with:
-  - left navigation
-  - top information bar
-  - white content cards
-  - blue primary action buttons
-  - status labels and data tables
-- Reorganized page layout to better match the project reference design and make later
-  backend integration easier.
-
-2. Swing UI Pages
+1. Swing UI Pages
 - Improved the Java Swing runtime UI so that it is visually closer to the web UI rather
   than looking like the original default desktop forms.
 - Refined the following Swing-side files:
@@ -45,7 +27,7 @@ Main Work Completed:
   - consistent card containers
   - unified button and table styles
 
-3. MO / Admin UI Work
+2. MO / Admin UI Work
 - Focused on the MO-side workflow:
   - application review
   - module / position publishing
@@ -58,13 +40,13 @@ Main Work Completed:
 - Reworked the selected student profile panel so that it is more compact and easier to read.
   Later versions changed it from large text-box style blocks into a cleaner summary card style.
 
-4. TA UI Work
+3. TA UI Work
 - Improved the TA-side login, dashboard, profile, and application display areas.
 - Optimized profile information layout and form structure.
 - Improved page navigation and consistency between different TA views.
 - Reduced clipping and truncation issues in profile-related sections.
 
-5. UI Detail Fixes and Polishing
+4. UI Detail Fixes and Polishing
 - Repeatedly checked and optimized UI details during testing.
 - Fixed issues such as:
   - overlapping text
@@ -75,7 +57,7 @@ Main Work Completed:
   - poor scrolling behavior in narrow panels
 - Improved dialog messages and button text to avoid strange or garbled display.
 
-6. Collaboration with Existing Program
+5. Collaboration with Existing Program
 - Kept my work mainly on the interface layer without changing teammates' core business logic.
 - Ensured the updated UI could still run with the existing Java program structure.
 - Verified multiple times that the project could still compile after UI changes.
