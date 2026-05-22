@@ -4,7 +4,7 @@
   "description" : "Assist with Java lab sessions and answer student questions.",
   "courseName" : "Java Programming",
   "requiredSkills" : [ "Java", "Communication" ],
-  "weeklyHours" : 6,
+  "weeklyHours" : 9,
   "quota" : 2,
   "status" : "OPEN",
   "publisherId" : "U900"
@@ -14,7 +14,7 @@
   "description" : "Support database coursework, marking, and office hours.",
   "courseName" : "Database Systems",
   "requiredSkills" : [ "SQL", "Tutoring" ],
-  "weeklyHours" : 5,
+  "weeklyHours" : 19,
   "quota" : 2,
   "status" : "OPEN",
   "publisherId" : "U900"

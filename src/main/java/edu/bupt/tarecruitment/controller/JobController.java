@@ -35,4 +35,21 @@ public class JobController {
     public List<Job> getJobsByPublisher(String publisherId) throws DataAccessException {
         return jobService.getJobsByPublisher(publisherId);
     }
+
+    public Job updateOwnJob(
+            String jobId,
+            String courseName,
+            List<String> requiredSkills,
+            int weeklyHours,
+            int quota,
+            String description,
+            String publisherId
+    ) throws ValidationException, BusinessException, DataAccessException {
+        return jobService.updateOwnJob(jobId, courseName, requiredSkills, weeklyHours, quota, description, publisherId);
+    }
+
+    public boolean deleteOwnJob(String jobId, String publisherId)
+            throws ValidationException, BusinessException, DataAccessException {
+        return jobService.deleteOwnJob(jobId, publisherId);
+    }
 }
