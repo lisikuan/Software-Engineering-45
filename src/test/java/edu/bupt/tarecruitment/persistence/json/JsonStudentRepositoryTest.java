@@ -31,7 +31,7 @@ class JsonStudentRepositoryTest {
     @Test
     void insertWritesStudentToStudentsJson() throws Exception {
         JsonStudentRepository repository = createRepositoryWithStudentsJson("[]");
-        Student student = new Student("S001", "Alice", "U001", "20230001", List.of("Java", "SQL"), "cvs/S001.pdf");
+        Student student = new Student("S001", "Alice", "U001", "20230001", "CS", "3", List.of("Java", "SQL"), "cvs/S001.pdf");
 
         repository.insert(student);
 
@@ -59,7 +59,7 @@ class JsonStudentRepositoryTest {
 
         DataAccessException exception = assertThrows(
                 DataAccessException.class,
-                () -> repository.insert(new Student("S001", "Bob", "U002", "20230002", List.of("Python"), null))
+                () -> repository.insert(new Student("S001", "Bob", "U002", "20230002", "CS", "3", List.of("Python"), null))
         );
 
         assertTrue(exception.getMessage().contains("Duplicate id 'S001'"));
@@ -80,7 +80,7 @@ class JsonStudentRepositoryTest {
                 ]
                 """);
 
-        repository.update(new Student("S001", "Alice Updated", "U001", "20230009", List.of("Java", "SQL"), "cvs/S001.pdf"));
+        repository.update(new Student("S001", "Alice Updated", "U001", "20230009", "CS", "3", List.of("Java", "SQL"), "cvs/S001.pdf"));
 
         Student storedStudent = repository.findById("S001").orElseThrow();
         assertEquals("Alice Updated", storedStudent.getName());

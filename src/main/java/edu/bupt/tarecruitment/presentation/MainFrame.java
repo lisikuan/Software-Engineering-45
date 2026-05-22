@@ -1,5 +1,6 @@
 package edu.bupt.tarecruitment.presentation;
 
+import edu.bupt.tarecruitment.controller.AiController;
 import edu.bupt.tarecruitment.controller.ApplicationController;
 import edu.bupt.tarecruitment.controller.AuthController;
 import edu.bupt.tarecruitment.controller.JobController;
@@ -20,6 +21,7 @@ public class MainFrame extends JFrame {
     private final StudentController studentController;
     private final JobController jobController;
     private final ApplicationController applicationController;
+    private final AiController aiController;
     private final CardLayout cardLayout;
     private final JPanel contentPanel;
 
@@ -29,20 +31,33 @@ public class MainFrame extends JFrame {
             JobController jobController,
             ApplicationController applicationController
     ) {
+        this(authController, studentController, jobController, applicationController, null);
+    }
+
+    public MainFrame(
+            AuthController authController,
+            StudentController studentController,
+            JobController jobController,
+            ApplicationController applicationController,
+            AiController aiController
+    ) {
         super("TA Recruitment System");
         this.authController = authController;
         this.studentController = studentController;
         this.jobController = jobController;
         this.applicationController = applicationController;
+        this.aiController = aiController;
         this.cardLayout = new CardLayout();
         this.contentPanel = new JPanel(cardLayout);
         initializeUi();
     }
 
     private void initializeUi() {
+        UiTheme.installDefaults();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 780);
         setLocationRelativeTo(null);
+        contentPanel.setBackground(UiTheme.PAGE_BG);
         setContentPane(contentPanel);
         showLoginView();
     }
@@ -74,6 +89,7 @@ public class MainFrame extends JFrame {
                             studentController,
                             jobController,
                             applicationController,
+                            aiController,
                             this::showLoginView
                     ),
                     MO_VIEW
