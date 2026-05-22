@@ -1,14 +1,4 @@
 [ {
-  "id" : "J001",
-  "title" : "Java Programming TA",
-  "description" : "Assist with Java lab sessions and answer student questions.",
-  "courseName" : "Java Programming",
-  "requiredSkills" : [ "Java", "Communication" ],
-  "weeklyHours" : 9,
-  "quota" : 2,
-  "status" : "OPEN",
-  "publisherId" : "U900"
-}, {
   "id" : "J002",
   "title" : "Database Systems TA",
   "description" : "Support database coursework, marking, and office hours.",
@@ -19,53 +9,23 @@
   "status" : "OPEN",
   "publisherId" : "U900"
 }, {
-  "id" : "J003",
-  "title" : "123 TA",
-  "description" : "sdgfdsagfdff",
-  "courseName" : "123",
-  "requiredSkills" : [ "dsad" ],
-  "weeklyHours" : 21,
+  "id" : "J008",
+  "title" : "SQL data processing TA",
+  "description" : "Need you!",
+  "courseName" : "SQL data processing",
+  "requiredSkills" : [ "J2SE", "SQL" ],
+  "weeklyHours" : 12,
+  "quota" : 3,
+  "status" : "OPEN",
+  "publisherId" : "U900"
+}, {
+  "id" : "J009",
+  "title" : "Sofware Study TA",
+  "description" : "Good job.",
+  "courseName" : "Sofware Study",
+  "requiredSkills" : [ "Java" ],
+  "weeklyHours" : 3,
   "quota" : 2,
-  "status" : "OPEN",
-  "publisherId" : "U900"
-}, {
-  "id" : "J004",
-  "title" : "123 TA",
-  "description" : "dsafdsfvdsvadv",
-  "courseName" : "123",
-  "requiredSkills" : [ "321" ],
-  "weeklyHours" : 21,
-  "quota" : 3,
-  "status" : "OPEN",
-  "publisherId" : "U900"
-}, {
-  "id" : "J005",
-  "title" : "adfdsa TA",
-  "description" : "sfsdafa",
-  "courseName" : "adfdsa",
-  "requiredSkills" : [ "123" ],
-  "weeklyHours" : 21,
-  "quota" : 1,
-  "status" : "OPEN",
-  "publisherId" : "U900"
-}, {
-  "id" : "J006",
-  "title" : "5454 TA",
-  "description" : "asdfdsfaf",
-  "courseName" : "5454",
-  "requiredSkills" : [ "wer" ],
-  "weeklyHours" : 1,
-  "quota" : 3,
-  "status" : "OPEN",
-  "publisherId" : "U900"
-}, {
-  "id" : "J007",
-  "title" : "dafdfdgf TA",
-  "description" : "adfsdafdf",
-  "courseName" : "dafdfdgf",
-  "requiredSkills" : [ "12324" ],
-  "weeklyHours" : 3325,
-  "quota" : 12,
   "status" : "OPEN",
   "publisherId" : "U900"
 } ]
