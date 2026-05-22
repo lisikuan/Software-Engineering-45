@@ -1,0 +1,4 @@
+QM no:23122069
+Name:EnhaoCao
+Main contribution:During this project, my primary responsibilities were designing and implementing the TA-end user interface and co-authoring the final report.
+Reflective statement:Through this project, I gained practical experience in collaborative development using Git and GitHub. I learned how to create feature branches, resolve merge conflicts, conduct code reviews via pull requests, and track tasks using issues and project boards.
