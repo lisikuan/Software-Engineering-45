@@ -1,0 +1,9 @@
+QM no:231222671
+Name:Haotian Dai
+Main contribution:
+In this project, I took charge of AI module development and system testing. I developed and debugged core AI functions, adjusted parameters and optimised its accuracy and stability to meet project needs. I ensured the AI module worked well with other parts of the system.
+I also completed functional and regression testing. I found and recorded bugs, communicated with teammates to fix issues and checked revised results. My work improved system stability and ensured project quality.
+
+Reflective statement:
+This project improved my practical skills in AI development and testing. I learned that careful optimisation and strict testing are vital for project reliability. I also enhanced my teamwork and communication skills.
+I realised I lack experience in advanced AI tuning and standardised testing planning. In future studies, I will strengthen my professional abilities and gain more practical experience to perform better in similar projects.
