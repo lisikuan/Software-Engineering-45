@@ -6,16 +6,6 @@
 }, {
   "id" : "A002",
   "studentId" : "S001",
-  "jobId" : "J008",
-  "status" : "APPROVED"
-}, {
-  "id" : "A003",
-  "studentId" : "S001",
   "jobId" : "J002",
-  "status" : "REVIEWED"
-}, {
-  "id" : "A004",
-  "studentId" : "S001",
-  "jobId" : "J009",
   "status" : "APPROVED"
 } ]

@@ -43,6 +43,16 @@ class AuthServiceTest {
         assertThrows(BusinessException.class, () -> authService.login("ta1", "ta123", UserRole.MO));
     }
 
+    @Test
+    void loginReturnsAdminWhenCredentialsAndRoleMatch() throws Exception {
+        AuthService authService = createAuthService();
+
+        User user = authService.login("admin1", "admin123", UserRole.ADMIN);
+
+        assertEquals("U999", user.getId());
+        assertEquals(UserRole.ADMIN, user.getRole());
+    }
+
     private AuthService createAuthService() throws Exception {
         Files.writeString(tempDir.resolve("users.json"), """
                 [
@@ -57,6 +67,12 @@ class AuthServiceTest {
                     "username": "mo1",
                     "password": "mo123",
                     "role": "MO"
+                  },
+                  {
+                    "id": "U999",
+                    "username": "admin1",
+                    "password": "admin123",
+                    "role": "ADMIN"
                   }
                 ]
                 """);
