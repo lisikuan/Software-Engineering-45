@@ -3,8 +3,8 @@
   "name" : "LSK",
   "userId" : "U001",
   "studentNumber" : "123456",
-  "major" : "CS",
+  "major" : "Telecommunications Engineering and Management",
   "grade" : "3",
-  "skillTags" : [ "study" ],
+  "skillTags" : [ "Java", "Python" ],
   "cvFilePath" : "cvs/S001.pdf"
 } ]
