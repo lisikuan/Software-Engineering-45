@@ -8,7 +8,7 @@ package edu.bupt.tarecruitment.model;
  * - id is the persistence key.
  * - username is the login name shown in the UI.
  * - password is stored as plain text only for the current runnable test version.
- * - role controls whether the UI opens the student or admin flow.
+ * - role controls whether the UI opens the TA, MO, or Admin flow.
  * - [???] A safer password storage strategy for later iterations.
  */
 public class User {

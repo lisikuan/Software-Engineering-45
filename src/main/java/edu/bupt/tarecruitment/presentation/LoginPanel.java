@@ -38,7 +38,7 @@ public class LoginPanel extends JPanel {
         this.loginSuccessHandler = loginSuccessHandler;
         this.usernameField = new JTextField(18);
         this.passwordField = new JPasswordField(18);
-        this.roleBox = new JComboBox<>(new UserRole[]{UserRole.TA, UserRole.MO});
+        this.roleBox = new JComboBox<>(new UserRole[]{UserRole.TA, UserRole.MO, UserRole.ADMIN});
         initializeUi();
     }
 
@@ -95,9 +95,11 @@ public class LoginPanel extends JPanel {
         introPanel.add(Box.createVerticalStrut(8));
         introPanel.add(line2);
         introPanel.add(Box.createVerticalStrut(20));
-        introPanel.add(exampleLine("TA demo: ta1 / ta123"));
+        introPanel.add(exampleLine("TA available: ta1-ta11 / ta123"));
         introPanel.add(Box.createVerticalStrut(8));
-        introPanel.add(exampleLine("MO demo: mo1 / mo123"));
+        introPanel.add(exampleLine("MO available: mo1-mo11 / mo123"));
+        introPanel.add(Box.createVerticalStrut(8));
+        introPanel.add(exampleLine("Admin demo: admin1 / admin123"));
         introPanel.add(Box.createVerticalGlue());
 
         return introPanel;

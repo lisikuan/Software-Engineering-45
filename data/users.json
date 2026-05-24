@@ -6,9 +6,135 @@
     "role": "TA"
   },
   {
+    "id": "U002",
+    "username": "ta2",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U003",
+    "username": "ta3",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U004",
+    "username": "ta4",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U005",
+    "username": "ta5",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U006",
+    "username": "ta6",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U007",
+    "username": "ta7",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U008",
+    "username": "ta8",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U009",
+    "username": "ta9",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U010",
+    "username": "ta10",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
+    "id": "U011",
+    "username": "ta11",
+    "password": "ta123",
+    "role": "TA"
+  },
+  {
     "id": "U900",
     "username": "mo1",
     "password": "mo123",
     "role": "MO"
+  },
+  {
+    "id": "U901",
+    "username": "mo2",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U902",
+    "username": "mo3",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U903",
+    "username": "mo4",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U904",
+    "username": "mo5",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U905",
+    "username": "mo6",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U906",
+    "username": "mo7",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U907",
+    "username": "mo8",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U908",
+    "username": "mo9",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U909",
+    "username": "mo10",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U910",
+    "username": "mo11",
+    "password": "mo123",
+    "role": "MO"
+  },
+  {
+    "id": "U999",
+    "username": "admin1",
+    "password": "admin123",
+    "role": "ADMIN"
   }
 ]

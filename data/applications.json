@@ -3,4 +3,9 @@
   "studentId" : "S001",
   "jobId" : "J001",
   "status" : "REJECTED"
+}, {
+  "id" : "A002",
+  "studentId" : "S001",
+  "jobId" : "J002",
+  "status" : "APPROVED"
 } ]

@@ -1,6 +1,7 @@
 package edu.bupt.tarecruitment.presentation;
 
 import edu.bupt.tarecruitment.controller.AiController;
+import edu.bupt.tarecruitment.controller.AdminController;
 import edu.bupt.tarecruitment.controller.ApplicationController;
 import edu.bupt.tarecruitment.controller.AuthController;
 import edu.bupt.tarecruitment.controller.JobController;
@@ -16,8 +17,10 @@ public class MainFrame extends JFrame {
     private static final String LOGIN_VIEW = "login";
     private static final String TA_VIEW = "ta";
     private static final String MO_VIEW = "mo";
+    private static final String ADMIN_VIEW = "admin";
 
     private final AuthController authController;
+    private final AdminController adminController;
     private final StudentController studentController;
     private final JobController jobController;
     private final ApplicationController applicationController;
@@ -31,11 +34,12 @@ public class MainFrame extends JFrame {
             JobController jobController,
             ApplicationController applicationController
     ) {
-        this(authController, studentController, jobController, applicationController, null);
+        this(authController, null, studentController, jobController, applicationController, null);
     }
 
     public MainFrame(
             AuthController authController,
+            AdminController adminController,
             StudentController studentController,
             JobController jobController,
             ApplicationController applicationController,
@@ -43,6 +47,7 @@ public class MainFrame extends JFrame {
     ) {
         super("TA Recruitment System");
         this.authController = authController;
+        this.adminController = adminController;
         this.studentController = studentController;
         this.jobController = jobController;
         this.applicationController = applicationController;
@@ -82,7 +87,7 @@ public class MainFrame extends JFrame {
                     TA_VIEW
             );
             cardLayout.show(contentPanel, TA_VIEW);
-        } else {
+        } else if (user.getRole() == UserRole.MO) {
             contentPanel.add(
                     new AdminReviewPanel(
                             user,
@@ -95,6 +100,19 @@ public class MainFrame extends JFrame {
                     MO_VIEW
             );
             cardLayout.show(contentPanel, MO_VIEW);
+        } else {
+            contentPanel.add(
+                    new AdminDashboardPanel(
+                            user,
+                            adminController,
+                            jobController,
+                            applicationController,
+                            aiController,
+                            this::showLoginView
+                    ),
+                    ADMIN_VIEW
+            );
+            cardLayout.show(contentPanel, ADMIN_VIEW);
         }
         refreshFrame();
     }
