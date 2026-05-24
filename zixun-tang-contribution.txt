@@ -1,9 +1,0 @@
-QM no: 231221113
-
-Name: Zixun Tang
-
-Main contribution:
-My main contribution to the project was designing and implementing the JSON-based persistence layer for the TA Recruitment System. I helped define the minimum data models for Student, Job, and Application, created repository interfaces, and implemented the corresponding JSON repository classes. I also established consistent persistence rules, including primary key handling, update behavior, JSON file structure, and exception handling through DataAccessException and JsonFormatException. In addition, I wrote minimum JUnit tests for the Student, Job, and Application persistence chains to verify insert, update, delete, duplicate ID handling, and malformed JSON behavior. I also documented the persistence contract so that service and UI developers could integrate with the repository layer consistently.
-
-Reflective statement:
-Through this project, I gained a deeper understanding of layered architecture and the importance of keeping responsibilities separated. One challenge was deciding which rules belonged in the persistence layer and which should be left for the service layer, such as preventing duplicate applications for the same student and job. This helped me understand that a clean design is not only about making code work, but also about making future development easier for teammates. I also improved my skills in Java 17, JSON persistence, repository design, exception handling, and unit testing with JUnit. Overall, the project strengthened my ability to build a small but maintainable Java application while following agreed team constraints and avoiding unnecessary frameworks.
